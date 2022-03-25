@@ -47,7 +47,7 @@
     "confirm": "Confirmar",
     "register": "POR FAVOR REGÍSTRESE",
     "already": "¿YA TIENES UNA CUENTA?",
-    "age": "Edad: jardín de infancia",
+    "age_flat": "Edad: jardín de infancia",
     "animals": "Animales",
     "brave": "Sé valiente",
     "afraid_upper": "(NO) ESTOY ASUSTADO",
@@ -62,5 +62,7 @@
     "age": "Años:\n2-7",
     "pictures": "Ilustraciones:\nChristopher Weyant",
     "time": "Duración:\n3m 13s",
-    "back": "Espalda"
+    "back": "Espalda",
+    "username": "NOMBRE DE USUARIO",
+    "password": "CLAVE"
 }

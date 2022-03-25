@@ -1,9 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:story_kids/components/utils_views/rounded_button.dart';
 import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:story_kids/components/utils_views/input_field.dart';
+import 'package:story_kids/components/utils_views/rounded_button.dart';
 
 class LogLogInBodyDesktop extends StatelessWidget {
   const LogLogInBodyDesktop({Key? key}) : super(key: key);
@@ -48,13 +49,37 @@ class LogLogInBodyDesktop extends StatelessWidget {
               SizedBox(
                 height: uiManager.blockSizeVertical * 4,
               ),
-              // Remove to another widget AAADIP
-              Container(
-                color: Colors.yellow,
+              SizedBox(
                 width: uiManager.blockSizeHorizontal * 25,
-                height: uiManager.blockSizeVertical * 20,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: uiManager.blockSizeVertical * 4,
+                    ),
+                    InputCustomField(
+                      text: currentLocale.username,
+                      color: primaryColor,
+                      uiManager: uiManager,
+                      controller: null,
+                    ),
+                    SizedBox(
+                      height: uiManager.blockSizeVertical * 2,
+                    ),
+                    InputCustomField(
+                      text: currentLocale.password,
+                      color: primaryColor,
+                      uiManager: uiManager,
+                      controller: null,
+                      visibilityToggle: true,
+                    ),
+                    SizedBox(
+                      height: uiManager.blockSizeVertical * 4,
+                    ),
+                  ],
+                ),
               ),
-              // Remove to another widget AAADIP
               SizedBox(
                 height: uiManager.blockSizeVertical * 2,
               ),

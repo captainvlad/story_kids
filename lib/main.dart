@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:story_kids/blocs/header_bloc.dart';
+import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/screens/desktop/detailed_info_screen.dart';
 import 'package:story_kids/screens/desktop/forgot_password_screen.dart';
 import 'package:story_kids/screens/desktop/home_screen.dart';
@@ -39,10 +40,15 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Story Kids',
             locale: _hBloc.state.currentLocale,
-            home: const LibraryScreenDesktop(),
+            home: const LogInScreenDesktop(),
             navigatorKey: NavigationManager.navigatorKey,
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
+            theme: ThemeData(
+              colorScheme: ThemeData().colorScheme.copyWith(
+                    primary: primaryColor,
+                  ),
+            ),
           );
         },
       ),

@@ -47,7 +47,7 @@
     "confirm": "Confirm",
     "register": "PLEASE REGISTER",
     "already": "ALREADY HAVE AN ACCOUNT?",
-    "age": "Age: kindergarten",
+    "age_flat": "Age: kindergarten",
     "animals": "Animals",
     "brave": "Be brave",
     "afraid_upper": "I'M (NOT) AFRAID",
@@ -62,5 +62,7 @@
     "age": "Age:\n2-7",
     "pictures": "Illustrations:\nChristopher Weyant",
     "time": "Duration:\n3m 13s",
-    "back": "Back"
+    "back": "Back",
+    "username": "USER NAME",
+    "password": "PASSWORD"
 }

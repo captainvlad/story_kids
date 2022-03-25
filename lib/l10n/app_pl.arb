@@ -47,7 +47,7 @@
     "confirm": "Zatwierdz",
     "register": "PROSZĘ SIĘ ZAREJESTROWAĆ",
     "already": "POSIADASZ JUŻ KONTO?",
-    "age": "Wiek: przedszkole",
+    "age_flat": "Wiek: przedszkole",
     "animals": "Zwierzęta",
     "brave": "Być odważnym",
     "afraid_upper": "(NIE) BOJĘ SIĘ",
@@ -62,5 +62,7 @@
     "age": "Wiek:\n2-7",
     "pictures": "Ilustracje:\nChristopher Weyant",
     "time": "Czas trwania:\n3m 13s",
-    "back": "Wracam"
+    "back": "Wracam",
+    "username": "NAZWA UŻYTKOWNIKA",
+    "password": "HASŁO"
 }
