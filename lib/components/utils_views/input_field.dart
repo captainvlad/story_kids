@@ -8,6 +8,7 @@ class InputCustomField extends StatelessWidget {
   final Color color;
   final UiManager uiManager;
   final bool visibilityToggle;
+  final void Function(String)? onChanged;
   final TextEditingController? controller;
 
   const InputCustomField({
@@ -17,6 +18,7 @@ class InputCustomField extends StatelessWidget {
     required this.uiManager,
     required this.controller,
     this.visibilityToggle = false,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -61,6 +63,7 @@ class InputCustomField extends StatelessWidget {
                 ),
               ),
             ),
+            onChanged: onChanged,
           );
         },
       ),

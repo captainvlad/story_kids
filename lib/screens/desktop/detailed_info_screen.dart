@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:story_kids/components/desktop/screen_7/body.dart';
+import 'package:story_kids/components/desktop/detailed_info_screen/body.dart';
 import 'package:story_kids/components/utils_views/header_desktop.dart';
 
 class DetailedInfoScreenDesktop extends StatelessWidget {

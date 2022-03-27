@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:story_kids/components/mobile/screen_4/body.dart';
-import 'package:story_kids/components/mobile/screen_4/header.dart';
+import 'package:story_kids/components/mobile/forgot_password_screen/body.dart';
+import 'package:story_kids/components/utils_views/header_mobile.dart';
 
 class ForgotPasswordScreenMobile extends StatelessWidget {
   const ForgotPasswordScreenMobile({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class ForgotPasswordScreenMobile extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           child: StickyHeader(
-            header: const HeaderForgetMobile(),
+            header: const HeaderMobile(),
             content: const ForgetBodyMobile(),
           ),
         ),

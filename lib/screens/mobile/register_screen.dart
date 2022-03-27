@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:story_kids/components/mobile/screen_5/body.dart';
-import 'package:story_kids/components/mobile/screen_5/header.dart';
+import 'package:story_kids/components/mobile/register_screen/body.dart';
+import 'package:story_kids/components/utils_views/header_mobile.dart';
 
 class RegisterScreenMobile extends StatelessWidget {
   const RegisterScreenMobile({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class RegisterScreenMobile extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           child: StickyHeader(
-            header: const HeaderRegisterMobile(),
+            header: const HeaderMobile(),
             content: const RegisterBodyMobile(),
           ),
         ),

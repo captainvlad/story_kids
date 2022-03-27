@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:story_kids/components/mobile/screen_8/body.dart';
-import 'package:story_kids/components/mobile/screen_8/header.dart';
+import 'package:story_kids/components/mobile/video_player_screen/body.dart';
+import 'package:story_kids/components/utils_views/header_mobile.dart';
 
 class VideoPlayerScreenMobile extends StatelessWidget {
   const VideoPlayerScreenMobile({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class VideoPlayerScreenMobile extends StatelessWidget {
         width: double.infinity,
         child: SingleChildScrollView(
           child: StickyHeader(
-            header: const VideoHeaderMobile(),
+            header: const HeaderMobile(),
             content: const VideoBodyMobile(),
           ),
         ),

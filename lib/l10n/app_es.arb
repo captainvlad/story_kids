@@ -64,5 +64,15 @@
     "time": "Duración:\n3m 13s",
     "back": "Espalda",
     "username": "NOMBRE DE USUARIO",
-    "password": "CLAVE"
+    "password": "CLAVE",
+    "username_lower": "Nombre de usuario",
+    "name": "Nombre",
+    "surname": "Apellido",
+    "mail": "Correo electrónico",
+    "password_lower": "Clave",
+    "strength": "Fuerza",
+    "weak": "Flojo",
+    "medium": "Medio",
+    "high": "Alto",
+    "already_logged": "YA SE HA AUTENTIFICADO"
 }

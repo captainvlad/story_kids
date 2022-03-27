@@ -64,5 +64,15 @@
     "time": "Duration:\n3m 13s",
     "back": "Back",
     "username": "USER NAME",
-    "password": "PASSWORD"
+    "password": "PASSWORD",
+    "username_lower": "Username",
+    "name": "Name",
+    "surname": "Surname",
+    "mail": "E-mail",
+    "password_lower": "Password",
+    "strength": "Strength",
+    "weak": "Weak",
+    "medium": "Medium",
+    "high": "High",
+    "already_logged": "YOU ARE ALREADY LOGGED IN"
 }

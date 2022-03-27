@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:story_kids/components/desktop/screen_2/body.dart';
+import 'package:sticky_headers/sticky_headers.dart';
+import 'package:story_kids/components/desktop/login_screen/body.dart';
 import 'package:story_kids/components/utils_views/header_desktop.dart';
 
 class LogInScreenDesktop extends StatelessWidget {
@@ -14,7 +14,7 @@ class LogInScreenDesktop extends StatelessWidget {
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/skids_13.png"),
+            image: AssetImage("images/skids_14.jpg"),
             fit: BoxFit.cover,
           ),
         ),

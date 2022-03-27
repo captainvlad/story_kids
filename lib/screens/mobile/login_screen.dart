@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:story_kids/components/mobile/screen_2/body.dart';
-import 'package:story_kids/components/mobile/screen_2/header.dart';
+import 'package:sticky_headers/sticky_headers.dart';
+import 'package:story_kids/components/mobile/login_screen/body.dart';
+import 'package:story_kids/components/utils_views/header_mobile.dart';
 
 class LogInScreenMobile extends StatelessWidget {
   const LogInScreenMobile({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class LogInScreenMobile extends StatelessWidget {
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/skids_13.png"),
+            image: AssetImage("images/skids_14.jpg"),
             fit: BoxFit.cover,
           ),
         ),

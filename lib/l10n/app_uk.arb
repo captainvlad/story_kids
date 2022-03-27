@@ -64,5 +64,15 @@
     "time": "Тривалість:\n3м 13с",
     "back": "Назад",
     "username": "ІМ'Я КОРИСТУВАЧА",
-    "password": "ПАРОЛЬ"
+    "password": "ПАРОЛЬ",
+    "username_lower": "Ім'я користувача",
+    "name": "Ім'я",
+    "surname": "Прізвище",
+    "mail": "Ел. пошта",
+    "password_lower": "Пароль",
+    "strength": "Міцність",
+    "weak": "Слабка",
+    "medium": "Середня",
+    "high": "Висока",
+    "already_logged": "ВИ ВЖЕ ЗАЛОГОВАНІ"
 }

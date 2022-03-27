@@ -64,5 +64,15 @@
     "time": "Czas trwania:\n3m 13s",
     "back": "Wracam",
     "username": "NAZWA UŻYTKOWNIKA",
-    "password": "HASŁO"
+    "password": "HASŁO",
+    "username_lower": "Nazwa użytkownika",
+    "name": "Imię",
+    "surname": "Nazwisko",
+    "mail": "E-mail",
+    "password_lower": "Hasło",
+    "strength": "Wytrzymałość",
+    "weak": "Słaby",
+    "medium": "Średni",
+    "high": "Wysoka",
+    "already_logged": "JESTEŚ JUŻ ZALOGOWANY"
 }

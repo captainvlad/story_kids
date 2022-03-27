@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:story_kids/components/mobile/screen_6/body.dart';
-import 'package:story_kids/components/mobile/screen_6/header.dart';
+import 'package:story_kids/components/mobile/library_screen/body.dart';
+import 'package:story_kids/components/utils_views/header_mobile.dart';
 
 class LibraryScreenMobile extends StatelessWidget {
   const LibraryScreenMobile({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class LibraryScreenMobile extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: StickyHeader(
-          header: const HeaderLibraryMobile(),
+          header: const HeaderMobile(),
           content: const LibraryBodyMobile(),
         ),
       ),

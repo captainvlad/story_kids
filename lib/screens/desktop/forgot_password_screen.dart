@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:story_kids/components/desktop/screen_4/body.dart';
+import 'package:story_kids/components/desktop/forgot_password_screen/body.dart';
 import 'package:story_kids/components/utils_views/header_desktop.dart';
 
 class ForgotPasswordScreenDesktop extends StatelessWidget {
