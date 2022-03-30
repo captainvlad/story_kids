@@ -1,11 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:story_kids/blocs/header_bloc.dart';
+import 'package:story_kids/components/utils_views/rounded_button.dart';
 import 'package:story_kids/res/local_images_strings/locations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/login_screen.dart';
+import 'package:story_kids/screens/universal/register_screen.dart';
 import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 
@@ -17,7 +18,6 @@ class HeaderMobile extends StatelessWidget {
     return BlocBuilder<HeaderBloc, HeaderState>(
       builder: (context, state) {
         AppLocalizations currentLocale = AppLocalizations.of(context)!;
-        String? currentRoute = ModalRoute.of(context)!.settings.name;
         HeaderBloc _hBloc = BlocProvider.of<HeaderBloc>(context);
         UiManager uiManager = UiManager(context);
 
@@ -26,44 +26,32 @@ class HeaderMobile extends StatelessWidget {
 
         List<PopupMenuEntry<String>> buttonItems = [
           PopupMenuItem<String>(
-            value: 'log_in',
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(
-                uiManager.blockSizeHorizontal * 2,
-                uiManager.blockSizeVertical * 1,
-                uiManager.blockSizeHorizontal * 2,
-                uiManager.blockSizeVertical * 1,
+            value: "log_in",
+            child: RoundedButton(
+              text: Text(
+                currentLocale.log_in,
+                style: uiManager.mobile700Style6,
               ),
-              child: MaterialButton(
-                child: Text(
-                  currentLocale.log_in,
-                  style: TextStyle(
-                    fontSize: uiManager.mobileSizeUnit * 2.5,
-                    fontFamily: "Montserrat",
-                    fontWeight: FontWeight.w600,
-                    color: primaryColor,
-                  ),
-                ),
-                onPressed: () {
-                  print("Pressed text 1");
-                },
-              ),
+              uiManager: uiManager,
+              fillColor: secondaryColor,
+              strokeColor: primaryColor,
+              onPressed: () {
+                NavigationManager.pushNamed(LogInScreen.path, null);
+              },
             ),
           ),
           PopupMenuItem<String>(
-            value: 'free_days',
-            child: MaterialButton(
-              child: Text(
+            value: "free_days",
+            child: RoundedButton(
+              text: Text(
                 currentLocale.free_days,
-                style: TextStyle(
-                  fontSize: uiManager.mobileSizeUnit * 2.5,
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w600,
-                  color: primaryColor,
-                ),
+                style: uiManager.mobile700Style6,
               ),
+              uiManager: uiManager,
+              fillColor: secondaryColor,
+              strokeColor: primaryColor,
               onPressed: () {
-                print("Pressed text 2");
+                NavigationManager.pushNamed(RegisterScreen.path, null);
               },
             ),
           ),
@@ -80,8 +68,7 @@ class HeaderMobile extends StatelessWidget {
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
                   onTap: () {
-                    print("Refreshing screen");
-                    NavigationManager.refreshScreen(currentRoute!);
+                    NavigationManager.backToMain();
                   },
                   child: Image.asset(
                     logo,
@@ -93,10 +80,8 @@ class HeaderMobile extends StatelessWidget {
                 width: uiManager.blockSizeHorizontal * 40,
               ),
               PopupMenuButton<String>(
+                onSelected: null,
                 icon: const Icon(Icons.menu),
-                onSelected: (String result) {
-                  print("Selected value: $result");
-                },
                 itemBuilder: (BuildContext context) => buttonItems,
               ),
               SizedBox(

@@ -4,6 +4,8 @@ import 'package:story_kids/screens/desktop/detailed_info_screen.dart';
 import 'package:story_kids/screens/mobile/detailed_info_screen.dart';
 
 class DetailedInfoScreen extends StatelessWidget {
+   static String path = "detailed_info";
+
   const DetailedInfoScreen({Key? key}) : super(key: key);
 
   @override

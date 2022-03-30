@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,12 +19,7 @@ class Body8Mobile extends StatelessWidget {
         ),
         Text(
           currentLocale.be_friends,
-          style: TextStyle(
-            fontFamily: "Montserrat",
-            color: primaryColor,
-            fontWeight: FontWeight.w700,
-            fontSize: uiManager.mobileSizeUnit * 4,
-          ),
+          style: uiManager.mobile700Style1,
         ),
         SizedBox(
           height: uiManager.blockSizeVertical * 2,
@@ -40,12 +32,7 @@ class Body8Mobile extends StatelessWidget {
           child: Text(
             currentLocale.follow,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: primaryColor,
-              fontWeight: FontWeight.w400,
-              fontSize: uiManager.mobileSizeUnit * 2.5,
-            ),
+            style: uiManager.mobile300Style3,
           ),
         ),
         SizedBox(

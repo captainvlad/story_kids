@@ -27,12 +27,7 @@ class Body7Mobile extends StatelessWidget {
             child: Text(
               currentLocale.we_created,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: "Montserrat",
-                color: secondaryColor,
-                fontWeight: FontWeight.w700,
-                fontSize: uiManager.mobileSizeUnit * 2.5,
-              ),
+              style: uiManager.mobile700Style2,
             ),
           ),
           SizedBox(
@@ -94,24 +89,14 @@ class BenefitTemplate extends StatelessWidget {
           ),
           Text(
             title,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: secondaryColor,
-              fontWeight: FontWeight.w700,
-              fontSize: uiManager.mobileSizeUnit * 2.5,
-            ),
+            style: uiManager.mobile700Style2,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,
           ),
           Text(
             subtitle,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: secondaryColor,
-              fontWeight: FontWeight.w400,
-              fontSize: uiManager.mobileSizeUnit * 2.5,
-            ),
+            style: uiManager.mobile300Style2,
           ),
         ],
       ),

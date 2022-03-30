@@ -27,24 +27,14 @@ class Body3Mobile extends StatelessWidget {
               children: [
                 Text(
                   currentLocale.your_time,
-                  style: TextStyle(
-                    fontFamily: "Montserrat",
-                    color: secondaryColor,
-                    fontWeight: FontWeight.w700,
-                    fontSize: uiManager.mobileSizeUnit * 4,
-                  ),
+                  style: uiManager.mobile700Style3,
                 ),
                 SizedBox(
                   height: uiManager.blockSizeVertical * 3,
                 ),
                 Text(
                   currentLocale.children_spend,
-                  style: TextStyle(
-                    fontFamily: "Montserrat",
-                    color: secondaryColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: uiManager.mobileSizeUnit * 2.5,
-                  ),
+                  style: uiManager.mobile700Style2,
                 ),
               ],
             ),

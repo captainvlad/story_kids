@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
+import 'package:story_kids/screens/universal/progress_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:video_player/video_player.dart';
 import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
@@ -103,17 +105,14 @@ class Body6Mobile extends StatelessWidget {
           RoundedButton(
             text: Text(
               currentLocale.browse,
-              style: TextStyle(
-                color: secondaryColor,
-                fontFamily: "Montserrat",
-                fontSize: uiManager.mobileSizeUnit * 2.5,
-                fontWeight: FontWeight.w900,
-              ),
+              style: uiManager.mobile900Style5,
             ),
             uiManager: uiManager,
             fillColor: primaryColor,
             strokeColor: primaryColor,
-            onPressed: () {},
+            onPressed: () {
+              NavigationManager.pushNamed(ProgressScreen.path, null);
+            },
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 3,

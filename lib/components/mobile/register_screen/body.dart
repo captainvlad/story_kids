@@ -1,13 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:story_kids/blocs/body_bloc.dart';
+import 'package:story_kids/blocs/input_bloc.dart';
 import 'package:story_kids/components/utils_views/cards_listview.dart';
 import 'package:story_kids/components/utils_views/divider.dart';
 import 'package:story_kids/components/utils_views/register_form_mobile.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/login_screen.dart';
+import 'package:story_kids/screens/universal/progress_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -19,11 +20,22 @@ class RegisterBodyMobile extends StatelessWidget {
     UiManager uiManager = UiManager(context);
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
-    return BlocProvider<BodyBloc>(
-      create: (context) => BodyBloc(),
-      child: BlocBuilder<BodyBloc, BodyState>(
+    final nameController = TextEditingController();
+    final mailController = TextEditingController();
+    final surnameController = TextEditingController();
+    final passwordController = TextEditingController();
+    final usernameController = TextEditingController();
+
+    return BlocProvider<InputBloc>(
+      create: (context) => InputBloc(),
+      child: BlocBuilder<InputBloc, BodyState>(
         builder: (context, state) {
-          BodyBloc _bbloc = BlocProvider.of<BodyBloc>(context);
+          InputBloc _inbloc = BlocProvider.of<InputBloc>(context);
+
+          if (_inbloc.state.availablePlans.isEmpty) {
+            _inbloc.add(InitialializePlans());
+            return const SizedBox.shrink();
+          }
 
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -41,17 +53,14 @@ class RegisterBodyMobile extends StatelessWidget {
                     RoundedButton(
                       text: Text(
                         currentLocale.log_in,
-                        style: TextStyle(
-                          fontFamily: "Montserrat",
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: uiManager.mobileSizeUnit * 2.5,
-                        ),
+                        style: uiManager.mobile700Style4,
                       ),
                       uiManager: uiManager,
                       fillColor: secondaryColor,
                       strokeColor: secondaryColor,
-                      onPressed: () {},
+                      onPressed: () {
+                        NavigationManager.pushNamed(LogInScreen.path, null);
+                      },
                     ),
                   ],
                 ),
@@ -68,12 +77,7 @@ class RegisterBodyMobile extends StatelessWidget {
                     ),
                     Text(
                       currentLocale.plan,
-                      style: TextStyle(
-                        fontFamily: "Montserrat",
-                        color: blackColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: uiManager.mobileSizeUnit * 4,
-                      ),
+                      style: uiManager.mobile700Style7,
                     ),
                     SizedBox(
                       height: uiManager.blockSizeVertical * 2,
@@ -83,7 +87,7 @@ class RegisterBodyMobile extends StatelessWidget {
                       width: uiManager.blockSizeHorizontal * 50,
                       child: CardsListView(
                         mobile: true,
-                        bbloc: _bbloc,
+                        inbloc: _inbloc,
                         uiManager: uiManager,
                       ),
                     ),
@@ -95,9 +99,14 @@ class RegisterBodyMobile extends StatelessWidget {
                       height: uiManager.blockSizeVertical * 2,
                     ),
                     RegisterFormMobile(
-                      bbloc: _bbloc,
+                      inbloc: _inbloc,
                       uiManager: uiManager,
                       currentLocale: currentLocale,
+                      nameController: nameController,
+                      mailController: mailController,
+                      surnameController: surnameController,
+                      usernameController: usernameController,
+                      passwordController: passwordController,
                     ),
                     SizedBox(
                       height: uiManager.blockSizeVertical * 2,
@@ -108,12 +117,7 @@ class RegisterBodyMobile extends StatelessWidget {
                     ),
                     Text(
                       currentLocale.payment,
-                      style: TextStyle(
-                        fontFamily: "Montserrat",
-                        color: textSecondaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: uiManager.mobileSizeUnit * 2.5,
-                      ),
+                      style: uiManager.mobile700Style9,
                     ),
                     SizedBox(
                       height: uiManager.blockSizeVertical * 3,
@@ -123,24 +127,14 @@ class RegisterBodyMobile extends StatelessWidget {
                       children: [
                         Text(
                           currentLocale.selected_plan,
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: textSecondaryColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: uiManager.mobileSizeUnit * 2.5,
-                          ),
+                          style: uiManager.mobile700Style9,
                         ),
                         SizedBox(
                           height: uiManager.blockSizeHorizontal,
                         ),
                         Text(
                           currentLocale.free,
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: blackColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: uiManager.mobileSizeUnit * 2.5,
-                          ),
+                          style: uiManager.mobile700Style4,
                         ),
                       ],
                     ),
@@ -152,24 +146,14 @@ class RegisterBodyMobile extends StatelessWidget {
                       children: [
                         Text(
                           currentLocale.amount,
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: textSecondaryColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: uiManager.mobileSizeUnit * 2.5,
-                          ),
+                          style: uiManager.mobile700Style9,
                         ),
                         SizedBox(
                           height: uiManager.blockSizeHorizontal,
                         ),
                         Text(
                           "0.00 USD",
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: blackColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: uiManager.mobileSizeUnit * 2.5,
-                          ),
+                          style: uiManager.mobile700Style4,
                         ),
                       ],
                     ),
@@ -181,24 +165,14 @@ class RegisterBodyMobile extends StatelessWidget {
                       children: [
                         Text(
                           currentLocale.pay_am,
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: textSecondaryColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: uiManager.mobileSizeUnit * 2.5,
-                          ),
+                          style: uiManager.mobile700Style9,
                         ),
                         SizedBox(
                           height: uiManager.blockSizeHorizontal,
                         ),
                         Text(
                           "0.00 USD",
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: blackColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: uiManager.mobileSizeUnit * 2.5,
-                          ),
+                          style: uiManager.mobile700Style4,
                         ),
                       ],
                     ),
@@ -208,17 +182,21 @@ class RegisterBodyMobile extends StatelessWidget {
                     RoundedButton(
                       text: Text(
                         currentLocale.submit,
-                        style: TextStyle(
-                          fontSize: uiManager.mobileSizeUnit * 2.5,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.w600,
-                          color: primaryColor,
-                        ),
+                        style: uiManager.mobile700Style6,
                       ),
                       uiManager: uiManager,
                       fillColor: secondaryColor,
-                      strokeColor: secondaryColor,
-                      onPressed: () {},
+                      strokeColor: primaryColor,
+                      onPressed: () {
+                        ProcessRegisterInput(
+                          nameText: nameController.text,
+                          mailText: mailController.text,
+                          surnameText: surnameController.text,
+                          usernameText: usernameController.text,
+                          passwordText: passwordController.text,
+                        );
+                        NavigationManager.pushNamed(ProgressScreen.path, null);
+                      },
                     ),
                     SizedBox(
                       height: uiManager.blockSizeVertical * 4,

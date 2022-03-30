@@ -2,30 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:story_kids/blocs/header_bloc.dart';
 import 'package:story_kids/res/styles/colors.dart';
-import 'package:story_kids/screens/desktop/already_logged.dart';
-import 'package:story_kids/screens/desktop/detailed_info_screen.dart';
-import 'package:story_kids/screens/desktop/forgot_password_screen.dart';
-import 'package:story_kids/screens/desktop/home_screen.dart';
-import 'package:story_kids/screens/desktop/library_screen.dart';
-import 'package:story_kids/screens/desktop/login_screen.dart';
-import 'package:story_kids/screens/desktop/register_screen.dart';
-import 'package:story_kids/screens/desktop/video_player.dart';
-import 'package:story_kids/screens/mobile/already_logged.dart';
-import 'package:story_kids/screens/mobile/detailed_info_screen.dart';
-import 'package:story_kids/screens/mobile/forgot_password_screen.dart';
-import 'package:story_kids/screens/mobile/home_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:story_kids/screens/mobile/library_screen.dart';
-import 'package:story_kids/screens/mobile/login_screen.dart';
-import 'package:story_kids/screens/mobile/register_screen.dart';
-import 'package:story_kids/screens/mobile/progress_screen.dart';
-import 'package:story_kids/screens/mobile/video_player.dart';
-import 'package:story_kids/screens/tablet/library_screen.dart';
+import 'package:story_kids/screens/mobile/already_logged.dart';
+import 'package:story_kids/screens/universal/home_screen.dart';
 import 'package:story_kids/screens/universal/already_logged.dart';
+import 'package:story_kids/screens/universal/detailed_info_screen.dart';
 import 'package:story_kids/screens/universal/library_screen.dart';
 import 'package:story_kids/screens/universal/login_screen.dart';
+import 'package:story_kids/screens/universal/progress_screen.dart';
 import 'package:story_kids/screens/universal/register_screen.dart';
+import 'package:story_kids/screens/universal/video_player.dart';
 import 'package:story_kids/utilities/navigation_manager.dart';
+import 'screens/universal/forgot_password_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +24,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData defaultTheme = ThemeData(
+      colorScheme: ThemeData().colorScheme.copyWith(
+            primary: primaryColor,
+          ),
+    );
+
+    const String appName = "Story Kids";
+
     return BlocProvider<HeaderBloc>(
       create: (context) => HeaderBloc(),
       child: BlocBuilder<HeaderBloc, HeaderState>(
@@ -43,18 +39,28 @@ class MyApp extends StatelessWidget {
           HeaderBloc _hBloc = BlocProvider.of<HeaderBloc>(context);
 
           return MaterialApp(
-            title: 'Story Kids',
+            title: appName,
+            theme: defaultTheme,
+            // initialRoute: HomeScreen.path,
+            initialRoute: ForgotPasswordScreen.path,
             locale: _hBloc.state.currentLocale,
             home: const AlreadyLoggedScreenMobile(),
-            // home: const LogLogInScreenDesktop(),
             navigatorKey: NavigationManager.navigatorKey,
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            theme: ThemeData(
-              colorScheme: ThemeData().colorScheme.copyWith(
-                    primary: primaryColor,
-                  ),
-            ),
+            routes: {
+              HomeScreen.path: (context) => const HomeScreen(),
+              LogInScreen.path: (context) => const LogInScreen(),
+              LibraryScreen.path: (context) => const LibraryScreen(),
+              ProgressScreen.path: (context) => const ProgressScreen(),
+              RegisterScreen.path: (context) => const RegisterScreen(),
+              VideoPlayerScreen.path: (context) => const VideoPlayerScreen(),
+              DetailedInfoScreen.path: (context) => const DetailedInfoScreen(),
+              AlreadyLoggedScreen.path: (context) =>
+                  const AlreadyLoggedScreen(),
+              ForgotPasswordScreen.path: (context) =>
+                  const ForgotPasswordScreen(),
+            },
           );
         },
       ),

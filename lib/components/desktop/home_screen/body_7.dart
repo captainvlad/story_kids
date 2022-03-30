@@ -24,12 +24,7 @@ class Body7 extends StatelessWidget {
             child: Text(
               currentLocale.we_created,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontFamily: "Montserrat",
-                color: secondaryColor,
-                fontWeight: FontWeight.w700,
-                fontSize: 40,
-              ),
+              style: uiManager.desktop700Style2,
             ),
           ),
           SizedBox(
@@ -52,24 +47,14 @@ class Body7 extends StatelessWidget {
                     ),
                     Text(
                       currentLocale.acquisition,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                      ),
+                      style: uiManager.desktop700Style3,
                     ),
                     SizedBox(
                       height: uiManager.blockSizeVertical * 2,
                     ),
                     Text(
                       currentLocale.children,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
+                      style: uiManager.desktop300Style2,
                     ),
                   ],
                 ),
@@ -90,24 +75,14 @@ class Body7 extends StatelessWidget {
                     ),
                     Text(
                       currentLocale.acquisition,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                      ),
+                      style: uiManager.desktop700Style3,
                     ),
                     SizedBox(
                       height: uiManager.blockSizeVertical * 2,
                     ),
                     Text(
                       currentLocale.children,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
+                      style: uiManager.desktop300Style2,
                     ),
                   ],
                 ),

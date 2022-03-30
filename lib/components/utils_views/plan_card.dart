@@ -31,24 +31,14 @@ class PlanCard extends StatelessWidget {
             children: [
               Text(
                 "${plan.index}. ${plan.name}",
-                style: const TextStyle(
-                  fontFamily: "Montserrat",
-                  color: blackColor,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 35,
-                ),
+                style: uiManager.desktop700Style7,
               ),
               SizedBox(
                 height: uiManager.blockSizeVertical * 2,
               ),
               Text(
                 plan.price,
-                style: const TextStyle(
-                  fontFamily: "Montserrat",
-                  color: blackColor,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 40,
-                ),
+                style: uiManager.desktop700Style7,
               ),
             ],
           ),
@@ -61,24 +51,14 @@ class PlanCard extends StatelessWidget {
         children: [
           Text(
             "${plan.index}. ${plan.name}",
-            style: const TextStyle(
-              fontFamily: "Montserrat",
-              color: blackColor,
-              fontWeight: FontWeight.w700,
-              fontSize: 35,
-            ),
+            style: uiManager.desktop700Style7,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,
           ),
           Text(
             plan.price,
-            style: const TextStyle(
-              fontFamily: "Montserrat",
-              color: blackColor,
-              fontWeight: FontWeight.w700,
-              fontSize: 40,
-            ),
+            style: uiManager.desktop700Style7,
           ),
         ],
       );

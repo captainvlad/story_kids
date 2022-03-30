@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:story_kids/blocs/body_bloc.dart';
+import 'package:story_kids/blocs/input_bloc.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 
 class InputCustomField extends StatelessWidget {
@@ -24,49 +24,45 @@ class InputCustomField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget? suffixButton;
+    InputBloc _inbloc = BlocProvider.of<InputBloc>(context);
+    bool obscureText = visibilityToggle && _inbloc.state.hideText;
 
-    return BlocProvider<BodyBloc>(
-      create: (context) => BodyBloc(),
-      child: BlocBuilder<BodyBloc, BodyState>(
-        builder: (context, state) {
-          BodyBloc _bbloc = BlocProvider.of<BodyBloc>(context);
-
-          if (visibilityToggle) {
-            suffixButton = IconButton(
-              onPressed: () {
-                _bbloc.add(
-                  ToggleInputVisibility(),
-                );
-              },
-              icon: const Icon(
-                Icons.remove_red_eye_rounded,
-              ),
-            );
-          }
-
-          return TextField(
-            controller: null,
-            obscureText: state.hideText,
-            decoration: InputDecoration(
-              labelStyle: TextStyle(
-                fontSize: uiManager.blockSizeVertical * 1.75,
-                color: color,
-              ),
-              labelText: text,
-              suffixIcon: suffixButton,
-              border: const OutlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide(
-                  color: color,
-                  width: 2.0,
-                ),
-              ),
-            ),
-            onChanged: onChanged,
-          );
+    if (visibilityToggle && _inbloc.state.hideText) {
+      suffixButton = IconButton(
+        onPressed: () {
+          _inbloc.add(ToggleInputVisibility());
         },
+        icon: const Icon(Icons.visibility_off),
+      );
+    } else if (visibilityToggle) {
+      suffixButton = IconButton(
+        onPressed: () {
+          _inbloc.add(ToggleInputVisibility());
+        },
+        icon: const Icon(Icons.visibility),
+      );
+    }
+
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        labelStyle: TextStyle(
+          fontSize: uiManager.blockSizeVertical * 1.75,
+          color: color,
+        ),
+        labelText: text,
+        suffixIcon: suffixButton,
+        border: const OutlineInputBorder(),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25.0),
+          borderSide: BorderSide(
+            color: color,
+            width: 2.0,
+          ),
+        ),
       ),
+      onChanged: onChanged,
     );
   }
 }

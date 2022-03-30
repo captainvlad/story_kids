@@ -119,10 +119,6 @@ class HeaderState extends Equatable {
 }
 
 class HeaderBloc extends Bloc<HeaderEvent, HeaderState> {
-  late String quizType;
-  late String quizLevel;
-  late DateTime dateTimeStart;
-
   HeaderBloc() : super(HeaderState());
 
   @override

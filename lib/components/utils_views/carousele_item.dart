@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/video_player.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
@@ -31,12 +33,7 @@ class CarouseleItem extends StatelessWidget {
         ),
         Text(
           currentLocale.watch,
-          style: const TextStyle(
-            fontFamily: "Montserrat",
-            fontSize: 20.0,
-            fontWeight: FontWeight.w900,
-            color: secondaryColor,
-          ),
+          style: uiManager.desktop900Style4,
         ),
       ],
     );
@@ -60,26 +57,16 @@ class CarouseleItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "Nasla Klasa Jest Rodzina",
-                  style: TextStyle(
-                    fontFamily: "Montserrat",
-                    color: secondaryColor,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 40,
-                  ),
+                  style: uiManager.desktop700Style2,
                 ),
                 SizedBox(
                   height: uiManager.blockSizeVertical * 2,
                 ),
-                const Text(
+                Text(
                   "Rodzina to nie tylko osoby, Rodzina to nie tylko osoby, Rodzina to nie tylko osoby, Rodzina to nie tylko osoby, Rodzina to nie tylko osoby",
-                  style: TextStyle(
-                    fontFamily: "Montserrat",
-                    color: secondaryColor,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20,
-                  ),
+                  style: uiManager.desktop300Style2,
                 ),
                 SizedBox(
                   height: uiManager.blockSizeVertical * 2,
@@ -92,7 +79,7 @@ class CarouseleItem extends StatelessWidget {
                     fillColor: primaryColor,
                     strokeColor: primaryColor,
                     onPressed: () {
-                      print("Button pressed");
+                      NavigationManager.pushNamed(VideoPlayerScreen.path, null);
                     },
                   ),
                 )

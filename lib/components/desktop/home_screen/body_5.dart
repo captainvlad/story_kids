@@ -22,201 +22,90 @@ class Body5 extends StatelessWidget {
           ),
           Text(
             currentLocale.trusted,
-            style: const TextStyle(
-              fontFamily: "Montserrat",
-              color: secondaryColor,
-              fontWeight: FontWeight.w700,
-              fontSize: 40,
-            ),
+            style: uiManager.desktop700Style2,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 3,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // First comment
-              SizedBox(
-                width: uiManager.blockSizeHorizontal * 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      currentLocale.it_s_now,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 2,
-                    ),
-                    Text(
-                      currentLocale.stars,
-                      style: const TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.our_whole,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 12,
-                    ),
-                  ],
-                ),
+              CommentTemplate(
+                uiManager: uiManager,
+                stars: currentLocale.stars,
+                title: currentLocale.it_s_now,
+                subtitle: currentLocale.our_whole,
               ),
-              SizedBox(
-                width: uiManager.blockSizeVertical * 3,
+              CommentTemplate(
+                uiManager: uiManager,
+                stars: currentLocale.stars,
+                title: currentLocale.awesome,
+                subtitle: currentLocale.my_kids,
               ),
-              // Second comment
-              SizedBox(
-                width: uiManager.blockSizeHorizontal * 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      currentLocale.awesome,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 2,
-                    ),
-                    Text(
-                      currentLocale.stars,
-                      style: const TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.my_kids,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 26,
-                    ),
-                  ],
-                ),
+              CommentTemplate(
+                uiManager: uiManager,
+                stars: currentLocale.stars,
+                title: currentLocale.great,
+                subtitle: currentLocale.as_a,
               ),
-              SizedBox(
-                width: uiManager.blockSizeVertical * 3,
-              ),
-              // Third comment
-              SizedBox(
-                width: uiManager.blockSizeHorizontal * 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      currentLocale.great,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 2,
-                    ),
-                    Text(
-                      currentLocale.stars,
-                      style: const TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.as_a,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 7,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: uiManager.blockSizeVertical * 3,
-              ),
-              // Fourth comment
-              SizedBox(
-                width: uiManager.blockSizeHorizontal * 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      currentLocale.adore,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 2,
-                    ),
-                    Text(
-                      currentLocale.stars,
-                      style: const TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.delighted,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: secondaryColor,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 10,
-                    )
-                  ],
-                ),
+              CommentTemplate(
+                uiManager: uiManager,
+                stars: currentLocale.stars,
+                title: currentLocale.adore,
+                subtitle: currentLocale.delighted,
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class CommentTemplate extends StatelessWidget {
+  final String title;
+  final String stars;
+  final String subtitle;
+  final UiManager uiManager;
+
+  const CommentTemplate({
+    Key? key,
+    required this.title,
+    required this.stars,
+    required this.subtitle,
+    required this.uiManager,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: uiManager.blockSizeHorizontal * 20,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: uiManager.desktop700Style3,
+          ),
+          SizedBox(
+            height: uiManager.blockSizeVertical * 2,
+          ),
+          Text(
+            stars,
+            style: const TextStyle(
+              fontSize: 25,
+            ),
+          ),
           SizedBox(
             height: uiManager.blockSizeVertical * 4,
+          ),
+          Text(
+            subtitle,
+            style: uiManager.desktop300Style2,
+          ),
+          SizedBox(
+            height: uiManager.blockSizeVertical * 12,
           ),
         ],
       ),

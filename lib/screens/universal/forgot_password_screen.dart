@@ -4,6 +4,8 @@ import 'package:story_kids/screens/desktop/forgot_password_screen.dart';
 import 'package:story_kids/screens/mobile/forgot_password_screen.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
+  static String path = "forgot_password";
+
   const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override

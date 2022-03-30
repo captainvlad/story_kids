@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/register_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -51,12 +53,7 @@ class Body1Mobile extends StatelessWidget {
                         width: uiManager.blockSizeHorizontal * 35,
                         child: Text(
                           currentLocale.title,
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: secondaryColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: uiManager.mobileSizeUnit * 5,
-                          ),
+                          style: uiManager.mobile700Style3,
                         ),
                       ),
                       SizedBox(
@@ -65,17 +62,15 @@ class Body1Mobile extends StatelessWidget {
                       RoundedButton(
                         text: Text(
                           currentLocale.free_days_upper,
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            fontSize: uiManager.mobileSizeUnit * 2.5,
-                            fontWeight: FontWeight.w900,
-                            color: primaryColor,
-                          ),
+                          style: uiManager.mobile900Style3,
                         ),
                         uiManager: uiManager,
                         fillColor: secondaryColor,
                         strokeColor: secondaryColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          NavigationManager.pushNamed(
+                              RegisterScreen.path, null);
+                        },
                       ),
                     ],
                   ),

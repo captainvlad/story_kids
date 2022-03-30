@@ -55,21 +55,11 @@ class PasswordIndicator extends StatelessWidget {
           children: [
             Text(
               "${currentLocale.strength}: ",
-              style: const TextStyle(
-                fontFamily: "Montserrat",
-                color: textSecondaryColor,
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-              ),
+              style: uiManager.desktop700Style6,
             ),
             Text(
               "${complexityMessage[status]}",
-              style: const TextStyle(
-                fontFamily: "Montserrat",
-                color: blackColor,
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-              ),
+              style: uiManager.desktop700Style5,
             ),
           ],
         ),

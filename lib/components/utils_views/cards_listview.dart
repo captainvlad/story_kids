@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:story_kids/blocs/body_bloc.dart';
+import 'package:story_kids/blocs/input_bloc.dart';
 import 'package:story_kids/components/utils_views/plan_card.dart';
 import 'package:story_kids/components/utils_views/plan_card_mobile.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 
 class CardsListView extends StatelessWidget {
   final bool mobile;
-  final BodyBloc bbloc;
+  final InputBloc inbloc;
   final UiManager uiManager;
 
   const CardsListView({
     Key? key,
-    required this.bbloc,
+    required this.inbloc,
     required this.uiManager,
     this.mobile = false,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class CardsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (mobile) {
       return ListView(
-        children: bbloc.state.availablePlans
+        children: inbloc.state.availablePlans
             .map(
               (it) => Column(
                 children: [
@@ -28,7 +28,7 @@ class CardsListView extends StatelessWidget {
                     plan: it,
                     uiManager: uiManager,
                     onPressed: () {
-                      bbloc.add(
+                      inbloc.add(
                         ChangeActivePlan(index: it.index),
                       );
                     },
@@ -42,7 +42,7 @@ class CardsListView extends StatelessWidget {
     }
 
     return ListView(
-      children: bbloc.state.availablePlans
+      children: inbloc.state.availablePlans
           .map(
             (it) => Column(
               children: [
@@ -50,7 +50,7 @@ class CardsListView extends StatelessWidget {
                   plan: it,
                   uiManager: uiManager,
                   onPressed: () {
-                    bbloc.add(
+                    inbloc.add(
                       ChangeActivePlan(index: it.index),
                     );
                   },

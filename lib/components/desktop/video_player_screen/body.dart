@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/chewie_controller.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:video_player/video_player.dart';
 import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
@@ -28,18 +29,13 @@ class VideoBodyDesktop extends StatelessWidget {
             RoundedButton(
               text: Text(
                 currentLocale.back,
-                style: const TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w900,
-                  color: primaryColor,
-                ),
+                style: uiManager.desktop900Style3,
               ),
               uiManager: uiManager,
               fillColor: secondaryColor,
               strokeColor: secondaryColor,
               onPressed: () {
-                print("Button pressed");
+                NavigationManager.popScreen();
               },
             ),
           ],

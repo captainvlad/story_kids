@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/register_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,12 +24,7 @@ class Body9 extends StatelessWidget {
           ),
           Text(
             currentLocale.love_read,
-            style: const TextStyle(
-              fontFamily: "Montserrat",
-              color: secondaryColor,
-              fontWeight: FontWeight.w700,
-              fontSize: 40,
-            ),
+            style: uiManager.desktop700Style2,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 4,
@@ -35,18 +32,13 @@ class Body9 extends StatelessWidget {
           RoundedButton(
             text: Text(
               currentLocale.free_days_upper,
-              style: const TextStyle(
-                color: primaryColor,
-                fontFamily: "Montserrat",
-                fontSize: 20,
-                fontWeight: FontWeight.w900,
-              ),
+              style: uiManager.desktop900Style3,
             ),
             uiManager: uiManager,
             fillColor: secondaryColor,
             strokeColor: secondaryColor,
             onPressed: () {
-              print("Button 4 pressed");
+              NavigationManager.pushNamed(RegisterScreen.path, null);
             },
           ),
           SizedBox(

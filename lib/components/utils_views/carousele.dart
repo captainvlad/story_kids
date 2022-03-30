@@ -52,7 +52,7 @@ class Carousele extends StatelessWidget {
         .toList();
 
     return Container(
-      color: blackColor,
+      color: textPrimaryColor,
       width: width,
       height: height,
       child: FadingImagesSlider(

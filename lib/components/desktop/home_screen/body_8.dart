@@ -18,24 +18,14 @@ class Body8 extends StatelessWidget {
         ),
         Text(
           currentLocale.be_friends,
-          style: const TextStyle(
-            fontFamily: "Montserrat",
-            color: primaryColor,
-            fontWeight: FontWeight.w700,
-            fontSize: 40,
-          ),
+          style: uiManager.desktop700Style1,
         ),
         SizedBox(
           height: uiManager.blockSizeVertical * 4,
         ),
         Text(
           currentLocale.follow,
-          style: const TextStyle(
-            fontFamily: "Montserrat",
-            color: primaryColor,
-            fontWeight: FontWeight.w400,
-            fontSize: 20,
-          ),
+          style: uiManager.desktop300Style3,
         ),
         SizedBox(
           height: uiManager.blockSizeVertical * 4,

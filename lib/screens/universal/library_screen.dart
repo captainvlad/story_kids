@@ -5,6 +5,8 @@ import 'package:story_kids/screens/tablet/library_screen.dart';
 import 'package:story_kids/screens/desktop/library_screen.dart';
 
 class LibraryScreen extends StatelessWidget {
+  static String path = "library";
+
   const LibraryScreen({Key? key}) : super(key: key);
 
   @override

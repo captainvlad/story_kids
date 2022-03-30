@@ -4,6 +4,8 @@ import 'package:story_kids/screens/mobile/home_screen.dart';
 import 'package:story_kids/screens/desktop/home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  static String path = "home";
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override

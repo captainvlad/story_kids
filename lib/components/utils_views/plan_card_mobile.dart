@@ -33,24 +33,14 @@ class PlanCardMobile extends StatelessWidget {
             children: [
               Text(
                 "${plan.index}. ${plan.name}",
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  color: blackColor,
-                  fontWeight: FontWeight.w700,
-                  fontSize: uiManager.mobileSizeUnit * 4,
-                ),
+                style: uiManager.mobile700Style7,
               ),
               SizedBox(
                 height: uiManager.blockSizeVertical * 2,
               ),
               Text(
                 plan.price,
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  color: blackColor,
-                  fontWeight: FontWeight.w700,
-                  fontSize: uiManager.mobileSizeUnit * 4,
-                ),
+                style: uiManager.mobile700Style7,
               ),
             ],
           ),
@@ -63,24 +53,14 @@ class PlanCardMobile extends StatelessWidget {
         children: [
           Text(
             "${plan.index}. ${plan.name}",
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: blackColor,
-              fontWeight: FontWeight.w700,
-              fontSize: uiManager.mobileSizeUnit * 4,
-            ),
+            style: uiManager.mobile700Style7,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,
           ),
           Text(
             plan.price,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: blackColor,
-              fontWeight: FontWeight.w700,
-              fontSize: uiManager.mobileSizeUnit * 4,
-            ),
+            style: uiManager.mobile700Style7,
           ),
         ],
       );

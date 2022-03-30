@@ -3,6 +3,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:story_kids/screens/mobile/progress_screen.dart';
 
 class ProgressScreen extends StatelessWidget {
+  static String path = "progress";
+
   const ProgressScreen({Key? key}) : super(key: key);
 
   @override

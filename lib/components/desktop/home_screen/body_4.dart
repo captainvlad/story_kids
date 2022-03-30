@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -11,164 +10,91 @@ class Body4 extends StatelessWidget {
     UiManager uiManager = UiManager(context);
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
-    return Container(
-      width: double.infinity,
-      color: secondaryColor,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: uiManager.blockSizeVertical * 4,
+        ),
+        Text(
+          currentLocale.what_receive,
+          style: uiManager.desktop700Style1,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            WhatReceiveTemplate(
+              uiManager: uiManager,
+              imagePath: "images/skids_7.png",
+              subtitle: currentLocale.filling,
+              title: currentLocale.constant,
+            ),
+            WhatReceiveTemplate(
+              uiManager: uiManager,
+              imagePath: "images/skids_8.png",
+              subtitle: currentLocale.we_not,
+              title: currentLocale.at_the,
+            ),
+            WhatReceiveTemplate(
+              uiManager: uiManager,
+              imagePath: "images/skids_9.png",
+              subtitle: currentLocale.filling,
+              title: currentLocale.constant,
+            ),
+          ],
+        ),
+        SizedBox(
+          height: uiManager.blockSizeVertical * 4,
+        ),
+      ],
+    );
+  }
+}
+
+class WhatReceiveTemplate extends StatelessWidget {
+  final UiManager uiManager;
+  final String imagePath;
+  final String subtitle;
+  final String title;
+
+  const WhatReceiveTemplate({
+    Key? key,
+    required this.uiManager,
+    required this.imagePath,
+    required this.subtitle,
+    required this.title,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: uiManager.blockSizeHorizontal * 20,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(
+            height: uiManager.blockSizeVertical * 8,
+          ),
+          Image.asset(
+            imagePath,
+            width: uiManager.blockSizeVertical * 10,
+            height: uiManager.blockSizeVertical * 10,
+          ),
           SizedBox(
             height: uiManager.blockSizeVertical * 4,
           ),
           Text(
-            currentLocale.what_receive,
-            style: const TextStyle(
-              fontFamily: "Montserrat",
-              color: primaryColor,
-              fontWeight: FontWeight.w700,
-              fontSize: 40,
-            ),
+            title,
+            style: uiManager.desktop700Style5,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 4,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: uiManager.blockSizeVertical * 50,
-                width: uiManager.blockSizeHorizontal * 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 8,
-                    ),
-                    Image.asset(
-                      "images/skids_7.png",
-                      width: uiManager.blockSizeVertical * 10,
-                      height: uiManager.blockSizeVertical * 10,
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.constant,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: blackColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.filling,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: textSecondaryColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: uiManager.blockSizeHorizontal * 5,
-              ),
-              SizedBox(
-                height: uiManager.blockSizeVertical * 50,
-                width: uiManager.blockSizeHorizontal * 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 8,
-                    ),
-                    Image.asset(
-                      "images/skids_8.png",
-                      width: uiManager.blockSizeVertical * 10,
-                      height: uiManager.blockSizeVertical * 10,
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.at_the,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: blackColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.we_not,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: textSecondaryColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                width: uiManager.blockSizeHorizontal * 5,
-              ),
-              SizedBox(
-                height: uiManager.blockSizeVertical * 50,
-                width: uiManager.blockSizeHorizontal * 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 8,
-                    ),
-                    Image.asset(
-                      "images/skids_9.png",
-                      width: uiManager.blockSizeVertical * 10,
-                      height: uiManager.blockSizeVertical * 10,
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.constant,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: blackColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 4,
-                    ),
-                    Text(
-                      currentLocale.filling,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: textSecondaryColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: uiManager.desktop700Style6,
           ),
         ],
       ),

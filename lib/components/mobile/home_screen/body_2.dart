@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/register_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -35,12 +37,7 @@ class Body2Mobile extends StatelessWidget {
               width: uiManager.blockSizeHorizontal * 45,
               child: Text(
                 currentLocale.history,
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  color: primaryColor,
-                  fontWeight: FontWeight.w700,
-                  fontSize: uiManager.mobileSizeUnit * 4,
-                ),
+                style: uiManager.mobile700Style1,
               ),
             ),
           ],
@@ -55,12 +52,7 @@ class Body2Mobile extends StatelessWidget {
               ),
               Text(
                 currentLocale.the_skids_team,
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  color: textSecondaryColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: uiManager.mobileSizeUnit * 2.5,
-                ),
+                style: uiManager.mobile700Style9,
               ),
               SizedBox(
                 height: uiManager.blockSizeVertical * 2,
@@ -68,17 +60,14 @@ class Body2Mobile extends StatelessWidget {
               RoundedButton(
                 text: Text(
                   currentLocale.free_days_upper,
-                  style: TextStyle(
-                    fontFamily: "Montserrat",
-                    color: secondaryColor,
-                    fontWeight: FontWeight.w700,
-                    fontSize: uiManager.mobileSizeUnit * 2.5,
-                  ),
+                  style: uiManager.mobile700Style2,
                 ),
                 uiManager: uiManager,
                 fillColor: primaryColor,
                 strokeColor: primaryColor,
-                onPressed: () {},
+                onPressed: () {
+                  NavigationManager.pushNamed(RegisterScreen.path, null);
+                },
               ),
             ],
           ),

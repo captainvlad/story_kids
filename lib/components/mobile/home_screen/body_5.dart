@@ -24,12 +24,7 @@ class Body5Mobile extends StatelessWidget {
           ),
           Text(
             currentLocale.trusted,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: secondaryColor,
-              fontWeight: FontWeight.w700,
-              fontSize: uiManager.mobileSizeUnit * 4,
-            ),
+            style: uiManager.mobile700Style3,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 3,
@@ -103,12 +98,7 @@ class CommentTemplate extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: secondaryColor,
-              fontWeight: FontWeight.w700,
-              fontSize: uiManager.mobileSizeUnit * 2.5,
-            ),
+            style: uiManager.mobile700Style2,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical,
@@ -124,12 +114,7 @@ class CommentTemplate extends StatelessWidget {
           ),
           Text(
             subtitle,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: secondaryColor,
-              fontWeight: FontWeight.w400,
-              fontSize: uiManager.mobileSizeUnit * 2.5,
-            ),
+            style: uiManager.mobile300Style2,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,

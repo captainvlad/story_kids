@@ -20,12 +20,7 @@ class Body4Mobile extends StatelessWidget {
         ),
         Text(
           currentLocale.what_receive,
-          style: TextStyle(
-            fontFamily: "Montserrat",
-            color: primaryColor,
-            fontWeight: FontWeight.w700,
-            fontSize: uiManager.mobileSizeUnit * 4,
-          ),
+          style: uiManager.mobile700Style1,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -94,12 +89,7 @@ class WhatReceiveTemplate extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: blackColor,
-              fontWeight: FontWeight.w700,
-              fontSize: uiManager.mobileSizeUnit * 2.5,
-            ),
+            style: uiManager.mobile700Style4,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,
@@ -107,12 +97,7 @@ class WhatReceiveTemplate extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: textSecondaryColor,
-              fontWeight: FontWeight.w500,
-              fontSize: uiManager.mobileSizeUnit * 2.5,
-            ),
+            style: uiManager.mobile700Style9,
           ),
         ],
       ),

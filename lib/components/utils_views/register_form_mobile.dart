@@ -1,24 +1,34 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:story_kids/blocs/body_bloc.dart';
+import 'package:story_kids/blocs/input_bloc.dart';
 import 'package:story_kids/components/utils_views/input_field.dart';
-import 'package:story_kids/components/utils_views/password_indicator.dart';
 import 'package:story_kids/components/utils_views/password_indicator_mobile.dart';
 import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterFormMobile extends StatelessWidget {
-  final BodyBloc bbloc;
+  final InputBloc inbloc;
   final UiManager uiManager;
   final AppLocalizations currentLocale;
 
+  final TextEditingController nameController;
+  final TextEditingController mailController;
+  final TextEditingController surnameController;
+  final TextEditingController passwordController;
+  final TextEditingController usernameController;
+
   const RegisterFormMobile({
     Key? key,
-    required this.bbloc,
+    required this.inbloc,
     required this.uiManager,
     required this.currentLocale,
+    required this.nameController,
+    required this.mailController,
+    required this.surnameController,
+    required this.passwordController,
+    required this.usernameController,
   }) : super(key: key);
 
   @override
@@ -34,12 +44,7 @@ class RegisterFormMobile extends StatelessWidget {
           ),
           Text(
             currentLocale.please,
-            style: TextStyle(
-              fontFamily: "Montserrat",
-              color: blackColor,
-              fontWeight: FontWeight.w700,
-              fontSize: uiManager.mobileSizeUnit * 4,
-            ),
+            style: uiManager.mobile700Style7,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 10,
@@ -48,7 +53,7 @@ class RegisterFormMobile extends StatelessWidget {
             text: currentLocale.username_lower,
             color: primaryColor,
             uiManager: uiManager,
-            controller: null,
+            controller: usernameController,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,
@@ -57,7 +62,7 @@ class RegisterFormMobile extends StatelessWidget {
             text: currentLocale.name,
             color: primaryColor,
             uiManager: uiManager,
-            controller: null,
+            controller: nameController,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,
@@ -66,7 +71,7 @@ class RegisterFormMobile extends StatelessWidget {
             text: currentLocale.surname,
             color: primaryColor,
             uiManager: uiManager,
-            controller: null,
+            controller: surnameController,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,
@@ -75,7 +80,7 @@ class RegisterFormMobile extends StatelessWidget {
             text: currentLocale.mail,
             color: primaryColor,
             uiManager: uiManager,
-            controller: null,
+            controller: mailController,
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,
@@ -85,8 +90,8 @@ class RegisterFormMobile extends StatelessWidget {
             color: primaryColor,
             uiManager: uiManager,
             visibilityToggle: true,
-            controller: null,
-            onChanged: (p0) => bbloc.add(
+            controller: passwordController,
+            onChanged: (p0) => inbloc.add(
               ValidatePassword(password: p0),
             ),
           ),
@@ -97,7 +102,7 @@ class RegisterFormMobile extends StatelessWidget {
             width: uiManager.blockSizeHorizontal * 50,
             child: PasswordIndicatorMobile(
               uiManager: uiManager,
-              status: bbloc.state.complexity,
+              status: inbloc.state.complexity,
               currentLocale: currentLocale,
             ),
           ),

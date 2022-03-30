@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
+import 'package:story_kids/screens/universal/progress_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:video_player/video_player.dart';
 import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
@@ -68,18 +70,13 @@ class Body6 extends StatelessWidget {
           RoundedButton(
             text: Text(
               currentLocale.browse,
-              style: const TextStyle(
-                color: primaryColor,
-                fontFamily: "Montserrat",
-                fontSize: 20.0,
-                fontWeight: FontWeight.w900,
-              ),
+              style: uiManager.desktop900Style3,
             ),
             uiManager: uiManager,
             fillColor: secondaryColor,
             strokeColor: secondaryColor,
             onPressed: () {
-              print("Button 3 pressed");
+              NavigationManager.pushNamed(ProgressScreen.path, null);
             },
           ),
           SizedBox(

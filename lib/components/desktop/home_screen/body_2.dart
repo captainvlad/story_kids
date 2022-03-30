@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/register_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -30,24 +32,14 @@ class Body2 extends StatelessWidget {
             children: [
               Text(
                 currentLocale.history,
-                style: const TextStyle(
-                  fontFamily: "Montserrat",
-                  color: primaryColor,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 40,
-                ),
+                style: uiManager.desktop700Style1,
               ),
               SizedBox(
                 height: uiManager.blockSizeVertical * 2,
               ),
               Text(
                 currentLocale.the_skids_team,
-                style: const TextStyle(
-                  fontFamily: "Montserrat",
-                  color: textSecondaryColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                ),
+                style: uiManager.desktop700Style6,
               ),
               SizedBox(
                 height: uiManager.blockSizeVertical * 2,
@@ -55,18 +47,13 @@ class Body2 extends StatelessWidget {
               RoundedButton(
                 text: Text(
                   currentLocale.free_days_upper,
-                  style: const TextStyle(
-                    fontFamily: "Montserrat",
-                    color: secondaryColor,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                  ),
+                  style: uiManager.desktop700Style4,
                 ),
                 uiManager: uiManager,
                 fillColor: primaryColor,
                 strokeColor: primaryColor,
                 onPressed: () {
-                  print("Button 2 pressed");
+                  NavigationManager.pushNamed(RegisterScreen.path, null);
                 },
               ),
             ],

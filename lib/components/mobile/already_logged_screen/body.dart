@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/library_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
@@ -36,12 +38,7 @@ class AlreadyLoggedBodyMobile extends StatelessWidget {
             child: Text(
               currentLocale.already_logged,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w700,
-                color: primaryColor,
-                fontSize: uiManager.mobileSizeUnit * 4,
-              ),
+              style: uiManager.mobile700Style1,
             ),
           ),
         ),
@@ -56,17 +53,14 @@ class AlreadyLoggedBodyMobile extends StatelessWidget {
               text: Text(
                 currentLocale.browse,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w700,
-                  color: secondaryColor,
-                  fontSize: uiManager.mobileSizeUnit * 2.5,
-                ),
+                style: uiManager.mobile700Style2,
               ),
               uiManager: uiManager,
               fillColor: primaryColor,
               strokeColor: primaryColor,
-              onPressed: () {},
+              onPressed: () {
+                NavigationManager.pushNamed(LibraryScreen.path, null);
+              },
             ),
             SizedBox(
               width: uiManager.blockSizeHorizontal * 20,

@@ -4,6 +4,8 @@ import 'package:story_kids/screens/desktop/register_screen.dart';
 import 'package:story_kids/screens/mobile/register_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
+  static String path = "register";
+
   const RegisterScreen({Key? key}) : super(key: key);
 
   @override

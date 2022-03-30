@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:video_player/video_player.dart';
 import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
@@ -47,17 +48,14 @@ class VideoBodyMobile extends StatelessWidget {
           RoundedButton(
             text: Text(
               currentLocale.back,
-              style: TextStyle(
-                fontFamily: "Montserrat",
-                fontSize: uiManager.mobileSizeUnit * 2.5,
-                fontWeight: FontWeight.w900,
-                color: secondaryColor,
-              ),
+              style: uiManager.mobile900Style4,
             ),
             uiManager: uiManager,
-            fillColor: primaryColor,
-            strokeColor: primaryColor,
-            onPressed: () {},
+            fillColor: secondaryColor,
+            strokeColor: secondaryColor,
+            onPressed: () {
+              NavigationManager.popScreen();
+            },
           ),
           SizedBox(
             height: uiManager.blockSizeVertical * 2,

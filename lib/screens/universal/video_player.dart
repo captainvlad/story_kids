@@ -4,6 +4,8 @@ import 'package:story_kids/screens/desktop/video_player.dart';
 import 'package:story_kids/screens/mobile/video_player.dart';
 
 class VideoPlayerScreen extends StatelessWidget {
+  static String path = "video_player";
+
   const VideoPlayerScreen({Key? key}) : super(key: key);
 
   @override

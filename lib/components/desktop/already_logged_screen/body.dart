@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/library_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -34,12 +36,7 @@ class AlreadyLoggedBodyDesktop extends StatelessWidget {
             child: Text(
               currentLocale.already_logged,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w700,
-                color: primaryColor,
-                fontSize: 40,
-              ),
+              style: uiManager.desktop700Style1,
             ),
           ),
         ),
@@ -54,17 +51,14 @@ class AlreadyLoggedBodyDesktop extends StatelessWidget {
               text: Text(
                 currentLocale.browse,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: "Montserrat",
-                  fontWeight: FontWeight.w700,
-                  color: secondaryColor,
-                  fontSize: 20,
-                ),
+                style: uiManager.desktop700Style4,
               ),
               uiManager: uiManager,
               fillColor: primaryColor,
               strokeColor: primaryColor,
-              onPressed: () {},
+              onPressed: () {
+                NavigationManager.pushNamed(LibraryScreen.path, null);
+              },
             ),
             SizedBox(
               width: uiManager.blockSizeHorizontal * 20,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:story_kids/blocs/body_bloc.dart';
+import 'package:story_kids/blocs/input_bloc.dart';
 import 'package:story_kids/components/utils_views/divider.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/login_screen.dart';
+import 'package:story_kids/screens/universal/progress_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/components/utils_views/cards_listview.dart';
@@ -17,11 +20,22 @@ class RegisterBodyDesktop extends StatelessWidget {
     UiManager uiManager = UiManager(context);
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
-    return BlocProvider<BodyBloc>(
-      create: (context) => BodyBloc(),
-      child: BlocBuilder<BodyBloc, BodyState>(
+    final nameController = TextEditingController();
+    final mailController = TextEditingController();
+    final surnameController = TextEditingController();
+    final passwordController = TextEditingController();
+    final usernameController = TextEditingController();
+
+    return BlocProvider<InputBloc>(
+      create: (context) => InputBloc(),
+      child: BlocBuilder<InputBloc, BodyState>(
         builder: (context, state) {
-          BodyBloc _bbloc = BlocProvider.of<BodyBloc>(context);
+          InputBloc _inbloc = BlocProvider.of<InputBloc>(context);
+
+          if (_inbloc.state.availablePlans.isEmpty) {
+            _inbloc.add(InitialializePlans());
+            return const SizedBox.shrink();
+          }
 
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -36,18 +50,13 @@ class RegisterBodyDesktop extends StatelessWidget {
                   RoundedButton(
                     text: Text(
                       currentLocale.log_in,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
+                      style: uiManager.desktop700Style5,
                     ),
                     uiManager: uiManager,
                     fillColor: secondaryColor,
                     strokeColor: secondaryColor,
                     onPressed: () {
-                      print("Button log in pressed");
+                      NavigationManager.pushNamed(LogInScreen.path, null);
                     },
                   ),
                   SizedBox(
@@ -69,12 +78,7 @@ class RegisterBodyDesktop extends StatelessWidget {
                     ),
                     Text(
                       currentLocale.plan,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: textSecondaryColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 40,
-                      ),
+                      style: uiManager.desktop700Style8,
                     ),
                     SizedBox(
                       height: uiManager.blockSizeVertical * 6,
@@ -83,7 +87,7 @@ class RegisterBodyDesktop extends StatelessWidget {
                       height: uiManager.blockSizeVertical * 30,
                       width: uiManager.blockSizeHorizontal * 25,
                       child: CardsListView(
-                        bbloc: _bbloc,
+                        inbloc: _inbloc,
                         uiManager: uiManager,
                       ),
                     ),
@@ -95,9 +99,14 @@ class RegisterBodyDesktop extends StatelessWidget {
                       height: uiManager.blockSizeVertical * 6,
                     ),
                     RegisterForm(
-                      bbloc: _bbloc,
+                      inbloc: _inbloc,
                       uiManager: uiManager,
                       currentLocale: currentLocale,
+                      nameController: nameController,
+                      mailController: mailController,
+                      surnameController: surnameController,
+                      usernameController: usernameController,
+                      passwordController: passwordController,
                     ),
                     SizedBox(
                       height: uiManager.blockSizeVertical * 6,
@@ -108,12 +117,7 @@ class RegisterBodyDesktop extends StatelessWidget {
                     ),
                     Text(
                       currentLocale.payment,
-                      style: const TextStyle(
-                        fontFamily: "Montserrat",
-                        color: textSecondaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
+                      style: uiManager.desktop700Style6,
                     ),
                     SizedBox(
                       height: uiManager.blockSizeVertical * 5,
@@ -123,24 +127,14 @@ class RegisterBodyDesktop extends StatelessWidget {
                       children: [
                         Text(
                           currentLocale.selected_plan,
-                          style: const TextStyle(
-                            fontFamily: "Montserrat",
-                            color: textSecondaryColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
+                          style: uiManager.desktop700Style6,
                         ),
                         SizedBox(
                           width: uiManager.blockSizeHorizontal,
                         ),
                         Text(
-                          _bbloc.state.activePlan.name,
-                          style: const TextStyle(
-                            fontFamily: "Montserrat",
-                            color: blackColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
+                          _inbloc.state.activePlan.name,
+                          style: uiManager.desktop700Style5,
                         ),
                       ],
                     ),
@@ -152,24 +146,14 @@ class RegisterBodyDesktop extends StatelessWidget {
                       children: [
                         Text(
                           currentLocale.amount,
-                          style: const TextStyle(
-                            fontFamily: "Montserrat",
-                            color: textSecondaryColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
+                          style: uiManager.desktop700Style6,
                         ),
                         SizedBox(
                           width: uiManager.blockSizeHorizontal,
                         ),
                         Text(
-                          _bbloc.state.activePlan.price,
-                          style: const TextStyle(
-                            fontFamily: "Montserrat",
-                            color: blackColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
+                          _inbloc.state.activePlan.price,
+                          style: uiManager.desktop700Style5,
                         ),
                       ],
                     ),
@@ -181,24 +165,14 @@ class RegisterBodyDesktop extends StatelessWidget {
                       children: [
                         Text(
                           currentLocale.pay_am,
-                          style: const TextStyle(
-                            fontFamily: "Montserrat",
-                            color: textSecondaryColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
+                          style: uiManager.desktop700Style6,
                         ),
                         SizedBox(
                           width: uiManager.blockSizeHorizontal,
                         ),
                         Text(
-                          _bbloc.state.activePlan.price,
-                          style: const TextStyle(
-                            fontFamily: "Montserrat",
-                            color: blackColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20,
-                          ),
+                          _inbloc.state.activePlan.price,
+                          style: uiManager.desktop700Style5,
                         ),
                       ],
                     ),
@@ -208,18 +182,20 @@ class RegisterBodyDesktop extends StatelessWidget {
                     RoundedButton(
                       text: Text(
                         currentLocale.submit,
-                        style: TextStyle(
-                          fontSize: uiManager.blockSizeHorizontal * 1.25,
-                          fontFamily: "Montserrat",
-                          fontWeight: FontWeight.w600,
-                          color: primaryColor,
-                        ),
+                        style: uiManager.desktop900Style3,
                       ),
                       uiManager: uiManager,
                       fillColor: secondaryColor,
                       strokeColor: primaryColor,
                       onPressed: () {
-                        print("Pressed text A");
+                        ProcessRegisterInput(
+                          nameText: nameController.text,
+                          mailText: mailController.text,
+                          surnameText: surnameController.text,
+                          usernameText: usernameController.text,
+                          passwordText: passwordController.text,
+                        );
+                        NavigationManager.pushNamed(ProgressScreen.path, null);
                       },
                     ),
                     SizedBox(

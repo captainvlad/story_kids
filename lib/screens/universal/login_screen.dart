@@ -4,6 +4,8 @@ import 'package:story_kids/screens/desktop/login_screen.dart';
 import 'package:story_kids/screens/mobile/login_screen.dart';
 
 class LogInScreen extends StatelessWidget {
+  static String path = "log_in";
+
   const LogInScreen({Key? key}) : super(key: key);
 
   @override

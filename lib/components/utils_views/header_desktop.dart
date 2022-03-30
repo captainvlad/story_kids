@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:story_kids/blocs/header_bloc.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/login_screen.dart';
+import 'package:story_kids/screens/universal/register_screen.dart';
 import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,7 +17,6 @@ class HeaderDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     UiManager uiManager = UiManager(context);
     HeaderBloc _hBloc = BlocProvider.of<HeaderBloc>(context);
-    String? currentRoute = ModalRoute.of(context)!.settings.name;
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
     return Container(
@@ -29,8 +30,7 @@ class HeaderDesktop extends StatelessWidget {
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
               onTap: () {
-                print("Refreshing screen");
-                NavigationManager.refreshScreen(currentRoute!);
+                NavigationManager.backToMain();
               },
               child: Image.asset(
                 logo,
@@ -44,14 +44,11 @@ class HeaderDesktop extends StatelessWidget {
           RoundedButton(
             text: Text(
               currentLocale.log_in,
-              style: TextStyle(
-                fontSize: uiManager.blockSizeHorizontal * 1.25,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w600,
-                color: primaryColor,
-              ),
+              style: uiManager.desktop900Style3,
             ),
-            onPressed: () => print("Header log in pressed"),
+            onPressed: () {
+              NavigationManager.pushNamed(LogInScreen.path, null);
+            },
             fillColor: secondaryColor,
             strokeColor: primaryColor,
             uiManager: uiManager,
@@ -62,14 +59,11 @@ class HeaderDesktop extends StatelessWidget {
           RoundedButton(
             text: Text(
               currentLocale.free_days,
-              style: TextStyle(
-                fontSize: uiManager.blockSizeHorizontal * 1.25,
-                fontFamily: "Montserrat",
-                fontWeight: FontWeight.w600,
-                color: primaryColor,
-              ),
+              style: uiManager.desktop900Style3,
             ),
-            onPressed: () => print("Header free days pressed"),
+            onPressed: () {
+              NavigationManager.pushNamed(RegisterScreen.path, null);
+            },
             fillColor: secondaryColor,
             strokeColor: secondaryColor,
             uiManager: uiManager,
