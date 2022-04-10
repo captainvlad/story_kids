@@ -20,7 +20,7 @@ class LibraryBodyDesktop extends StatelessWidget {
           LibraryBloc _lBloc = BlocProvider.of<LibraryBloc>(context);
 
           if (!_lBloc.state.initialized) {
-            _lBloc.add(LibraryLoadingEvent());
+            _lBloc.add(InitLibraryEvent());
             return const SizedBox.shrink();
           }
 
@@ -31,7 +31,7 @@ class LibraryBodyDesktop extends StatelessWidget {
                 height: uiManager.blockSizeVertical * 60,
                 width: double.infinity,
                 uiManager: uiManager,
-                filePaths: _lBloc.state.imgList,
+                media: _lBloc.state.contentList,
               ),
               SizedBox(
                 height: uiManager.blockSizeVertical * 4,

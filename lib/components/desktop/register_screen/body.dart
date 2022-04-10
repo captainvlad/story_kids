@@ -4,7 +4,6 @@ import 'package:story_kids/blocs/input_bloc.dart';
 import 'package:story_kids/components/utils_views/divider.dart';
 import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/screens/universal/login_screen.dart';
-import 'package:story_kids/screens/universal/progress_screen.dart';
 import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,10 +30,25 @@ class RegisterBodyDesktop extends StatelessWidget {
       child: BlocBuilder<InputBloc, BodyState>(
         builder: (context, state) {
           InputBloc _inbloc = BlocProvider.of<InputBloc>(context);
+          Widget errorMessage;
 
           if (_inbloc.state.availablePlans.isEmpty) {
             _inbloc.add(InitialializePlans());
             return const SizedBox.shrink();
+          } else if (_inbloc.state.errorText.isNotEmpty) {
+            errorMessage = Column(
+              children: [
+                Text(
+                  _inbloc.state.errorText,
+                  style: uiManager.desktop700Style9,
+                ),
+                SizedBox(
+                  height: uiManager.blockSizeVertical * 3,
+                ),
+              ],
+            );
+          } else {
+            errorMessage = const SizedBox.shrink();
           }
 
           return Column(
@@ -111,6 +125,7 @@ class RegisterBodyDesktop extends StatelessWidget {
                     SizedBox(
                       height: uiManager.blockSizeVertical * 6,
                     ),
+                    errorMessage,
                     standardDivider,
                     SizedBox(
                       height: uiManager.blockSizeVertical * 3,
@@ -188,14 +203,15 @@ class RegisterBodyDesktop extends StatelessWidget {
                       fillColor: secondaryColor,
                       strokeColor: primaryColor,
                       onPressed: () {
-                        ProcessRegisterInput(
-                          nameText: nameController.text,
-                          mailText: mailController.text,
-                          surnameText: surnameController.text,
-                          usernameText: usernameController.text,
-                          passwordText: passwordController.text,
+                        _inbloc.add(
+                          ProcessRegisterInput(
+                            nameText: nameController.text,
+                            mailText: mailController.text,
+                            surnameText: surnameController.text,
+                            usernameText: usernameController.text,
+                            passwordText: passwordController.text,
+                          ),
                         );
-                        NavigationManager.pushNamed(ProgressScreen.path, null);
                       },
                     ),
                     SizedBox(

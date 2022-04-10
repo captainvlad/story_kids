@@ -5,3 +5,5 @@ const Color secondaryColor = Color.fromARGB(255, 255, 255, 255);
 
 const Color textPrimaryColor = Color.fromARGB(255, 0, 0, 0);
 const Color textSecondaryColor = Color.fromARGB(255, 102, 102, 102);
+
+const Color textErrorColor = Color.fromARGB(255, 255, 0, 0);

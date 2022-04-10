@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:story_kids/models/media_content.dart';
 import 'package:story_kids/res/styles/colors.dart';
+import 'package:story_kids/screens/universal/detailed_info_screen.dart';
 import 'package:story_kids/screens/universal/video_player.dart';
 import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
@@ -10,12 +12,12 @@ import 'package:story_kids/components/utils_views/rounded_button.dart';
 
 class CarouseleItemMobile extends StatelessWidget {
   final UiManager uiManager;
-  final String imagePath;
+  final MediaContent mediaModel;
 
   const CarouseleItemMobile({
     Key? key,
     required this.uiManager,
-    required this.imagePath,
+    required this.mediaModel,
   }) : super(key: key);
 
   @override
@@ -42,7 +44,7 @@ class CarouseleItemMobile extends StatelessWidget {
       height: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(imagePath),
+          image: Image.network(mediaModel.darkBackground).image,
           fit: BoxFit.fill,
         ),
       ),
@@ -56,15 +58,26 @@ class CarouseleItemMobile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Nasla Klasa Jest Rodzina",
-                  style: uiManager.mobile700Style3,
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: (() {
+                      NavigationManager.pushNamed(
+                        DetailedInfoScreen.path,
+                        {"content": mediaModel},
+                      );
+                    }),
+                    child: Text(
+                      mediaModel.title,
+                      style: uiManager.mobile700Style3,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: uiManager.blockSizeVertical * 2,
                 ),
                 Text(
-                  "Rodzina to nie tylko osoby, Rodzina to nie tylko osoby, Rodzina to nie tylko osoby, Rodzina to nie tylko osoby, Rodzina to nie tylko osoby",
+                  mediaModel.brief,
                   style: uiManager.mobile300Style2,
                 ),
                 SizedBox(
@@ -83,7 +96,10 @@ class CarouseleItemMobile extends StatelessWidget {
                 fillColor: primaryColor,
                 strokeColor: primaryColor,
                 onPressed: () {
-                  NavigationManager.pushNamed(VideoPlayerScreen.path, null);
+                  NavigationManager.pushNamed(
+                    VideoPlayerScreen.path,
+                    {"contentPath": mediaModel.contentPath},
+                  );
                 },
               ),
               SizedBox(

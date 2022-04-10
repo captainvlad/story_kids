@@ -1,7 +1,10 @@
 import 'package:equatable/equatable.dart';
+import 'package:story_kids/backend_services/ContentProvider.dart';
 import 'package:story_kids/models/plan.dart';
 import 'package:story_kids/models/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:story_kids/screens/universal/progress_screen.dart';
+import 'package:story_kids/utilities/navigation_manager.dart';
 
 class BodyEvent {}
 
@@ -41,6 +44,14 @@ class ProcessRegisterInput extends BodyEvent {
     required this.usernameText,
     required this.passwordText,
   });
+
+  bool validTextInput() {
+    return nameText.isNotEmpty &&
+        mailText.isNotEmpty &&
+        surnameText.isNotEmpty &&
+        usernameText.isNotEmpty &&
+        passwordText.isNotEmpty;
+  }
 }
 
 class ProcessLoginInput extends BodyEvent {
@@ -63,6 +74,7 @@ class ProcessForgotInput extends BodyEvent {
 
 class BodyState extends Equatable {
   late int version;
+  String errorText = "";
   bool hideText = false;
   bool rememberMe = false;
 
@@ -99,12 +111,18 @@ class BodyState extends Equatable {
   }
 
   void changeActivePlan(int index) {
+    version++;
+    bool disablePlan = availablePlans[index].active;
+
     for (var element in availablePlans) {
       element.active = false;
     }
 
-    version++;
-    availablePlans[index].active = true;
+    if (disablePlan) {
+      return;
+    } else {
+      availablePlans[index].active = true;
+    }
   }
 
   void validatePassword(String password) {
@@ -119,26 +137,24 @@ class BodyState extends Equatable {
     }
   }
 
-  void initPlans() {
+  void checkInput(ProcessRegisterInput event) {
     version++;
+    bool planChosen = availablePlans.any(
+      (element) => element.active == true,
+    );
 
-    availablePlans = [
-      Plan(
-        index: 0,
-      ),
-      Plan(
-        index: 1,
-      ),
-      Plan(
-        index: 2,
-      ),
-      Plan(
-        index: 3,
-      ),
-      Plan(
-        index: 4,
-      ),
-    ];
+    if (!planChosen) {
+      errorText = "Plan not chosen. Please, choose one";
+    } else if (!event.validTextInput()) {
+      errorText = "Please, fill in all input forms.";
+    } else {
+      NavigationManager.pushNamed(ProgressScreen.path, null);
+    }
+  }
+
+  Future<void> initPlans() async {
+    version++;
+    availablePlans = await ContentProvider.getPlans();
   }
 }
 
@@ -147,9 +163,7 @@ class InputBloc extends Bloc<BodyEvent, BodyState> {
 
   @override
   Stream<BodyState> mapEventToState(BodyEvent event) async* {
-    // NavigationManager.pushNamed(ProgressScreen.path, null);
-    // await Future.delayed(const Duration(seconds: 5));
-    // NavigationManager.popScreen();
+    NavigationManager.pushNamed(ProgressScreen.path, null);
 
     if (event is ToggleInputVisibility) {
       state.toggleVisibility();
@@ -158,16 +172,21 @@ class InputBloc extends Bloc<BodyEvent, BodyState> {
     } else if (event is ValidatePassword) {
       state.validatePassword(event.password);
     } else if (event is InitialializePlans) {
-      state.initPlans();
+      await state.initPlans();
     } else if (event is ToggleRememberMe) {
       state.toggleRememberMe();
+    } else if (event is ProcessRegisterInput) {
+      state.checkInput(event);
     }
 
     BodyState st = BodyState();
     st.hideText = state.hideText;
+    st.errorText = state.errorText;
     st.rememberMe = state.rememberMe;
     st.complexity = state.complexity;
     st.availablePlans = state.availablePlans;
+
+    NavigationManager.popScreen();
     yield st;
   }
 }

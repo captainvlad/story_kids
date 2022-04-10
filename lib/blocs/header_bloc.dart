@@ -5,8 +5,6 @@ import 'package:story_kids/utilities/ui_manager.dart';
 
 class HeaderEvent {}
 
-class ChangePageEvent extends HeaderEvent {}
-
 class ChangeLanguageEvent extends HeaderEvent {
   late String chosenItem;
 

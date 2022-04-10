@@ -4,7 +4,12 @@ import 'package:story_kids/components/mobile/video_player_screen/body.dart';
 import 'package:story_kids/components/utils_views/header_mobile.dart';
 
 class VideoPlayerScreenMobile extends StatelessWidget {
-  const VideoPlayerScreenMobile({Key? key}) : super(key: key);
+  final String contentPath;
+
+  const VideoPlayerScreenMobile({
+    Key? key,
+    required this.contentPath,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,7 @@ class VideoPlayerScreenMobile extends StatelessWidget {
         child: SingleChildScrollView(
           child: StickyHeader(
             header: const HeaderMobile(),
-            content: const VideoBodyMobile(),
+            content: VideoBodyMobile(contentPath: contentPath),
           ),
         ),
       ),

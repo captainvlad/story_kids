@@ -2,6 +2,7 @@ import 'package:fading_images_slider/fading_images_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/carousele_item.dart';
 import 'package:story_kids/components/utils_views/carousele_item_mobile.dart';
+import 'package:story_kids/models/media_content.dart';
 import 'package:story_kids/res/styles/colors.dart';
 import 'package:story_kids/utilities/ui_manager.dart';
 
@@ -10,13 +11,13 @@ class Carousele extends StatelessWidget {
   final double? width;
   final double? height;
   final UiManager uiManager;
-  final List<String> filePaths;
+  final List<MediaContent> media;
 
   const Carousele({
     Key? key,
+    required this.media,
     required this.width,
     required this.height,
-    required this.filePaths,
     required this.uiManager,
     this.mobile = false,
   }) : super(key: key);
@@ -26,20 +27,20 @@ class Carousele extends StatelessWidget {
     final List<Widget> children;
 
     if (mobile) {
-      children = filePaths
+      children = media
           .map(
             (item) => CarouseleItemMobile(
               uiManager: uiManager,
-              imagePath: "assets/images/not_afraid_background.jpg",
+              mediaModel: item,
             ),
           )
           .toList();
     } else {
-      children = filePaths
+      children = media
           .map(
             (item) => CarouseleItem(
               uiManager: uiManager,
-              imagePath: "assets/images/not_afraid_background.jpg",
+              mediaModel: item,
             ),
           )
           .toList();

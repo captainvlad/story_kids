@@ -10,10 +10,19 @@ class VideoPlayerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    String contentPath = arguments["contentPath"];
+
     return ScreenTypeLayout(
-      desktop: const VideoPlayerScreenDesktop(),
-      tablet: const VideoPlayerScreenMobile(),
-      mobile: const VideoPlayerScreenMobile(),
+      desktop: VideoPlayerScreenDesktop(
+        contentPath: contentPath,
+      ),
+      tablet: VideoPlayerScreenMobile(
+        contentPath: contentPath,
+      ),
+      mobile: VideoPlayerScreenMobile(
+        contentPath: contentPath,
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:story_kids/components/utils_views/rounded_button.dart';
+import 'package:story_kids/models/media_content.dart';
 import 'package:story_kids/utilities/navigation_manager.dart';
 import 'package:video_player/video_player.dart';
 import 'package:story_kids/res/styles/colors.dart';
@@ -10,19 +11,24 @@ import 'package:story_kids/utilities/ui_manager.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VideoBodyMobile extends StatelessWidget {
-  const VideoBodyMobile({Key? key}) : super(key: key);
+  final String contentPath;
+
+  const VideoBodyMobile({
+    Key? key,
+    required this.contentPath,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     UiManager uiManager = UiManager(context);
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
-    VideoPlayerController _videoController1 =
-        VideoPlayerController.asset("videos/screen_1_background.mp4");
+    VideoPlayerController _videoController =
+        VideoPlayerController.network(contentPath);
 
     ChewieController _chewieController1 = ChewieController(
-      videoPlayerController: _videoController1,
       aspectRatio: 16 / 9,
+      videoPlayerController: _videoController,
       errorBuilder: (context, errorMessage) {
         print(errorMessage);
 

@@ -1,29 +1,40 @@
 class MediaContent {
-  String age = "-";
-  String meta = "-";
-  String title = "-";
-  String length = "-";
+  int id;
+  String age;
+  String meta;
+  String title;
+  String duration;
+  String author;
+  String brief;
+  String titleUpper;
+  String description;
+  String illustration;
 
-  String author = "-";
-  String subtitle = "-";
-  String iconPath = "-";
-
-  String description = "-";
-  String releaseDate = "-";
-  String illustration = "-";
-  String backgroundPath = "-";
+  String category;
+  String date;
+  String cardPath;
+  String bookImage;
+  String contentPath;
+  String darkBackground;
+  String lightBackground;
 
   MediaContent({
+    required this.id,
     required this.age,
     required this.meta,
     required this.title,
-    required this.length,
+    required this.duration,
+    required this.contentPath,
     required this.author,
-    required this.subtitle,
-    required this.iconPath,
+    required this.brief,
+    required this.cardPath,
+    required this.titleUpper,
     required this.description,
-    required this.releaseDate,
+    required this.darkBackground,
     required this.illustration,
-    required this.backgroundPath,
+    required this.lightBackground,
+    required this.bookImage,
+    required this.category,
+    required this.date,
   });
 }

@@ -14,14 +14,17 @@ class PreviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(50.0),
-        child: Image.asset(
-          "images/skids_15.jpg",
-          width: width,
-          height: height,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50.0),
+          child: Image.asset(
+            "images/skids_15.jpg",
+            width: width,
+            height: height,
+          ),
         ),
       ),
     );

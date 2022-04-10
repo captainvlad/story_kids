@@ -31,10 +31,25 @@ class RegisterBodyMobile extends StatelessWidget {
       child: BlocBuilder<InputBloc, BodyState>(
         builder: (context, state) {
           InputBloc _inbloc = BlocProvider.of<InputBloc>(context);
+          Widget errorMessage;
 
           if (_inbloc.state.availablePlans.isEmpty) {
             _inbloc.add(InitialializePlans());
             return const SizedBox.shrink();
+          } else if (_inbloc.state.errorText.isNotEmpty) {
+            errorMessage = Column(
+              children: [
+                Text(
+                  _inbloc.state.errorText,
+                  style: uiManager.mobile700Style10,
+                ),
+                SizedBox(
+                  height: uiManager.blockSizeVertical * 3,
+                ),
+              ],
+            );
+          } else {
+            errorMessage = const SizedBox.shrink();
           }
 
           return Column(
@@ -111,6 +126,7 @@ class RegisterBodyMobile extends StatelessWidget {
                     SizedBox(
                       height: uiManager.blockSizeVertical * 2,
                     ),
+                    errorMessage,
                     thickDivider,
                     SizedBox(
                       height: uiManager.blockSizeVertical * 3,
@@ -133,7 +149,7 @@ class RegisterBodyMobile extends StatelessWidget {
                           height: uiManager.blockSizeHorizontal,
                         ),
                         Text(
-                          currentLocale.free,
+                          _inbloc.state.activePlan.name,
                           style: uiManager.mobile700Style4,
                         ),
                       ],
@@ -152,7 +168,7 @@ class RegisterBodyMobile extends StatelessWidget {
                           height: uiManager.blockSizeHorizontal,
                         ),
                         Text(
-                          "0.00 USD",
+                          _inbloc.state.activePlan.price,
                           style: uiManager.mobile700Style4,
                         ),
                       ],
@@ -171,7 +187,7 @@ class RegisterBodyMobile extends StatelessWidget {
                           height: uiManager.blockSizeHorizontal,
                         ),
                         Text(
-                          "0.00 USD",
+                          _inbloc.state.activePlan.price,
                           style: uiManager.mobile700Style4,
                         ),
                       ],
@@ -188,14 +204,15 @@ class RegisterBodyMobile extends StatelessWidget {
                       fillColor: secondaryColor,
                       strokeColor: primaryColor,
                       onPressed: () {
-                        ProcessRegisterInput(
-                          nameText: nameController.text,
-                          mailText: mailController.text,
-                          surnameText: surnameController.text,
-                          usernameText: usernameController.text,
-                          passwordText: passwordController.text,
+                        _inbloc.add(
+                          ProcessRegisterInput(
+                            nameText: nameController.text,
+                            mailText: mailController.text,
+                            surnameText: surnameController.text,
+                            usernameText: usernameController.text,
+                            passwordText: passwordController.text,
+                          ),
                         );
-                        NavigationManager.pushNamed(ProgressScreen.path, null);
                       },
                     ),
                     SizedBox(

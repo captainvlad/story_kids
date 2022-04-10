@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:story_kids/backend_services/AuthManager.dart';
+import 'package:story_kids/backend_services/ContentProvider.dart';
 import 'package:story_kids/blocs/header_bloc.dart';
 import 'package:story_kids/res/styles/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,7 +17,8 @@ import 'package:story_kids/screens/universal/video_player.dart';
 import 'package:story_kids/utilities/navigation_manager.dart';
 import 'screens/universal/forgot_password_screen.dart';
 
-void main() {
+void main() async {
+  await AuthManager.initApp();
   runApp(const MyApp());
 }
 
@@ -41,8 +44,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: appName,
             theme: defaultTheme,
-            // initialRoute: HomeScreen.path,
-            initialRoute: ForgotPasswordScreen.path,
+            initialRoute: HomeScreen.path,
             locale: _hBloc.state.currentLocale,
             home: const AlreadyLoggedScreenMobile(),
             navigatorKey: NavigationManager.navigatorKey,

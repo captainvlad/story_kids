@@ -23,6 +23,7 @@ class UiManager {
   late final TextStyle desktop700Style6;
   late final TextStyle desktop700Style7;
   late final TextStyle desktop700Style8;
+  late final TextStyle desktop700Style9;
 
   late final TextStyle desktop900Style1;
   late final TextStyle desktop900Style2;
@@ -42,6 +43,7 @@ class UiManager {
   late final TextStyle mobile700Style7;
   late final TextStyle mobile700Style8;
   late final TextStyle mobile700Style9;
+  late final TextStyle mobile700Style10;
 
   late final TextStyle mobile900Style1;
   late final TextStyle mobile900Style2;
@@ -135,6 +137,13 @@ class UiManager {
       fontFamily: "Montserrat",
       fontSize: 40.0,
       color: textSecondaryColor,
+      fontWeight: FontWeight.w700,
+    );
+
+    desktop700Style9 = const TextStyle(
+      fontFamily: "Montserrat",
+      fontSize: 20.0,
+      color: textErrorColor,
       fontWeight: FontWeight.w700,
     );
 
@@ -248,6 +257,13 @@ class UiManager {
     mobile700Style9 = TextStyle(
       fontSize: 2.5 * mobileSizeUnit,
       color: textSecondaryColor,
+      fontWeight: FontWeight.w700,
+      fontFamily: "Montserrat",
+    );
+
+    mobile700Style10 = TextStyle(
+      fontSize: 2.5 * mobileSizeUnit,
+      color: textErrorColor,
       fontWeight: FontWeight.w700,
       fontFamily: "Montserrat",
     );

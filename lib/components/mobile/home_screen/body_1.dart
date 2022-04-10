@@ -62,7 +62,7 @@ class Body1Mobile extends StatelessWidget {
                       RoundedButton(
                         text: Text(
                           currentLocale.free_days_upper,
-                          style: uiManager.mobile900Style3,
+                          style: uiManager.mobile900Style4,
                         ),
                         uiManager: uiManager,
                         fillColor: secondaryColor,

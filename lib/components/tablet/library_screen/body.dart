@@ -22,7 +22,7 @@ class LibraryBodyTablet extends StatelessWidget {
           LibraryBloc _lBloc = BlocProvider.of<LibraryBloc>(context);
 
           if (!_lBloc.state.initialized) {
-            _lBloc.add(LibraryLoadingEvent());
+            _lBloc.add(InitLibraryEvent());
             return const SizedBox.shrink();
           }
 
@@ -45,7 +45,7 @@ class LibraryBodyTablet extends StatelessWidget {
                       height: uiManager.mobileSizeUnit * 30,
                       width: double.infinity,
                       uiManager: uiManager,
-                      filePaths: _lBloc.state.imgList,
+                      media: _lBloc.state.contentList,
                       mobile: true,
                     ),
                     SizedBox(
