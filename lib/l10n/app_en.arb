@@ -1,6 +1,7 @@
 {
     "language": "English",
     "log_in": "Log in",
+    "log_out": "Log out",
     "free_days": "30 days free",
     "free_days_upper": "30 DAYS FREE",
     "title": "ANIMATED STORIES AND BIOGRAPHIES FOR CHILDREN",
@@ -74,5 +75,22 @@
     "weak": "Weak",
     "medium": "Medium",
     "high": "High",
-    "already_logged": "YOU ARE ALREADY LOGGED IN"
+    "already_logged": "YOU ARE ALREADY LOGGED IN",
+    "error_occured": "Sorry, an error occurred",
+    "not_logged_in": "Please, log in because you are not yet",
+    "payment_service_choice": "Payment service:",
+    "payment_success": "Payment successful",
+    "back_to_main": "To main",
+    "failure": "Error occurred when processing payment",
+    "try_again": "Try again",
+    "please_confitm_payment": "Please, confirm payment on your side",
+    "retry_payment": "New payment",
+    "payment_defaulter": "Sorry, your account is a payment defaulter, please create new one",
+    "empty_input": "Input is empty",
+    "invalid_mail": "Input is not valid e-mail",
+    "user_not_exists": "User with such email does not exist",
+    "user_already_exists": "User with such email already exists",
+    "log_in_successful": "Login successful",
+    "success": "Success",
+    "log_in_progress": "Log in process in progress"
 }

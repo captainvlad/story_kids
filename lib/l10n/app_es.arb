@@ -1,6 +1,7 @@
 {
     "language": "Español",
     "log_in": "Acceder",
+    "log_out": "Cerrar sesión",
     "free_days": "30 días gratis",
     "free_days_upper": "30 DIAS GRATIS",
     "title": "CUENTOS ANIMADOS Y BIOGRAFÍAS PARA NIÑOS",
@@ -74,5 +75,22 @@
     "weak": "Flojo",
     "medium": "Medio",
     "high": "Alto",
-    "already_logged": "YA SE HA AUTENTIFICADO"
+    "already_logged": "YA SE HA AUTENTIFICADO",
+    "error_occured": "Disculpe, ocurrió un error",
+    "not_logged_in": "Por favor, inicia sesión porque aún no lo eres",
+    "payment_service_choice": "Servicio de pago: ",
+    "payment_success": "Pago exitoso",
+    "back_to_main": "A la principal",
+    "failure": "Ocurrió un error al procesar el pago",
+    "try_again": "Intentar otra vez",
+    "please_confitm_payment": "Por favor, confirme el pago de su parte",
+    "retry_payment": "Nuevo pago",
+    "payment_defaulter": "Lo sentimos, su cuenta es morosa en el pago, cree una nueva",
+    "empty_input": "La entrada está vacía",
+    "invalid_mail": "La entrada no es un correo electrónico válido",
+    "user_not_exists": "El usuario con dicho correo electrónico no existe",
+    "user_already_exists": "El usuario con dicho correo electrónico ya existe",
+    "log_in_successful": "Inicio de sesión exitoso",
+    "success": "Éxito",
+    "log_in_progress": "Proceso de inicio de sesión en curso"
 }

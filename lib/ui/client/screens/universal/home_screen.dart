@@ -1,0 +1,19 @@
+import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:story_kids/ui/client/screens/desktop/home_screen.dart';
+import 'package:story_kids/ui/client/screens/mobile/home_screen.dart';
+
+class HomeScreen extends StatelessWidget {
+  static String path = "home";
+
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenTypeLayout(
+      desktop: const HomeScreenDesktop(),
+      tablet: const HomeScreenMobile(),
+      mobile: const HomeScreenMobile(),
+    );
+  }
+}

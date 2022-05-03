@@ -1,6 +1,7 @@
 {
     "language": "Polska",
     "log_in": "Zaloguj sie",
+    "log_out": "Wyloguj",
     "free_days": "30 dni za darmo",
     "free_days_upper": "30 DNI ZA DARMO",
     "title": "ANIMOWANE HISTORIE I BIOGRAFIE DLA DZIECI",
@@ -74,5 +75,22 @@
     "weak": "Słaby",
     "medium": "Średni",
     "high": "Wysoka",
-    "already_logged": "JESTEŚ JUŻ ZALOGOWANY"
+    "already_logged": "JESTEŚ JUŻ ZALOGOWANY",
+    "error_occured": "Przepraszamy, pojawił się błąd",
+    "not_logged_in": "Proszę, zaloguj się, bo jeszcze nie jesteś",
+    "payment_service_choice": "Usługa płatnicza:",
+    "payment_success": "Płatność powiodła się",
+    "back_to_main": "Do głównej",
+    "failure": "Wystąpił błąd podczas przetwarzania płatności",
+    "try_again": "Spróbuj ponownie",
+    "please_confitm_payment": "Proszę o potwierdzenie płatności po swojej stronie",
+    "retry_payment": "Nowa płatność",
+    "payment_defaulter": "Przepraszamy, Twoje konto jest opóźnione w płatnościach, utwórz nowe",
+    "empty_input": "Wejście jest puste",
+    "invalid_mail": "Wpis jest nieprawidłowy e-mail",
+    "user_not_exists": "Użytkownik z takim adresem e-mail nie istnieje",
+    "user_already_exists": "Użytkownik z takim adresem e-mail już istnieje",
+    "log_in_successful": "Logowanie zakończone sukcesem",
+    "success": "Powodzenie",
+    "log_in_progress": "Trwa proces logowania"
 }
