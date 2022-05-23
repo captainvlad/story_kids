@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:story_kids/models/client/media_content.dart';
 import 'package:story_kids/ui/client/components/mobile/detailed_info_screen/body.dart';
-import 'package:story_kids/ui/client/components/utils_views/header_mobile.dart';
+import 'package:story_kids/ui/client/components/util_views/header_mobile.dart';
 
 class DetailedInfoScreenMobile extends StatelessWidget {
   final MediaContent content;

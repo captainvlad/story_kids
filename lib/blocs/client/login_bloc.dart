@@ -1,21 +1,27 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/managers/client/auth_manager.dart';
+import 'package:story_kids/managers/client/input_validation_manager.dart';
 import 'package:story_kids/models/client/enums.dart';
 
 class LoginEvent {}
 
 class BackToLoginInput extends LoginEvent {}
 
-class ToggleRememberMeLogin extends LoginEvent {}
+class ToggleRememberMe extends LoginEvent {}
 
 class ValidateInput extends LoginEvent {
+  final String email;
   final String password;
-  final String username;
+  final bool rememberMe;
+  final AppLocalizations currentLocale;
 
   ValidateInput({
-    required this.username,
+    required this.email,
     required this.password,
+    required this.rememberMe,
+    required this.currentLocale,
   });
 }
 
@@ -41,29 +47,34 @@ class LogInState extends Equatable {
 
   Future processInput(
     bool rememberMe,
-    String loginValue,
+    String emailValue,
     String passwordValue,
+    AppLocalizations currentLocale,
   ) async {
     version++;
 
-    String loginRes = await AuthManager.logInUser(
-      loginValue,
+    var check = await InputValidationManager.validateLogin(
+      emailValue,
       passwordValue,
-      rememberMe,
+      currentLocale,
     );
 
-    if (loginRes == "Success") {
-      status = InputStatus.success;
-    } else {
-      errorMessage = loginRes;
+    if (!check["valid"]) {
       status = InputStatus.failure;
+      errorMessage = check["description"];
+    } else {
+      String response = await AuthManager.instance.logInUser(
+        emailValue,
+        passwordValue,
+        rememberMe,
+      );
+
+      status =
+          response == "Success" ? InputStatus.success : InputStatus.failure;
+
+      errorMessage = response == "Success" ? "" : response;
     }
   }
-
-  Future userExists(
-    String loginValue,
-    String passwordValue,
-  ) async {}
 
   void backToMain() {
     version++;
@@ -81,30 +92,36 @@ class LoginBloc extends Bloc<LoginEvent, LogInState> {
 
   @override
   Stream<LogInState> mapEventToState(LoginEvent event) async* {
-    if (event is BackToLoginInput) {
-      state.backToMain();
-    } else if (event is ValidateInput) {
-      yield LogInState(
-        version: -2,
-        status: InputStatus.progress,
-      ); // AAADIP remove later
+    switch (event.runtimeType) {
+      case BackToLoginInput:
+        state.backToMain();
+        break;
 
-      await Future.delayed(const Duration(seconds: 2)); // AAADIP remove later
+      case ValidateInput:
+        yield LogInState(
+            version: state.version--, status: InputStatus.progress);
 
-      await state.processInput(
-        state.rememberMe,
-        event.username,
-        event.password,
-      );
-    } else if (event is ToggleRememberMeLogin) {
-      state.toggleRememberMe();
+        event as ValidateInput;
+        await state.processInput(
+          state.rememberMe,
+          event.email,
+          event.password,
+          event.currentLocale,
+        );
+
+        break;
+
+      case ToggleRememberMe:
+        state.toggleRememberMe();
+        break;
     }
 
-    LogInState st = LogInState();
-    st.status = state.status;
-    st.errorMessage = state.errorMessage;
-    st.rememberMe = state.rememberMe;
+    LogInState newState = LogInState(
+      errorMessage: state.errorMessage,
+      rememberMe: state.rememberMe,
+      status: state.status,
+    );
 
-    yield st;
+    yield newState;
   }
 }

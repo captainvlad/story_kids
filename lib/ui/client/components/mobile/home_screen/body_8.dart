@@ -8,7 +8,7 @@ class Body8Mobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UiManager uiManager = UiManager(context);
+    UiManager uiManager = UiManager(context, mode: "avg");
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
     return Column(
@@ -43,25 +43,25 @@ class Body8Mobile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.network(
-              LocalResourcesManager.homeScreenSocial1!,
+              LocalContentProvider.instance.homeScreenSocial1!,
             ),
             SizedBox(
               width: uiManager.blockSizeHorizontal * 2,
             ),
             Image.network(
-              LocalResourcesManager.homeScreenSocial2!,
+              LocalContentProvider.instance.homeScreenSocial2!,
             ),
             SizedBox(
               width: uiManager.blockSizeHorizontal * 2,
             ),
             Image.network(
-              LocalResourcesManager.homeScreenSocial3!,
+              LocalContentProvider.instance.homeScreenSocial3!,
             ),
             SizedBox(
               width: uiManager.blockSizeHorizontal * 2,
             ),
             Image.network(
-              LocalResourcesManager.homeScreenSocial4!,
+              LocalContentProvider.instance.homeScreenSocial4!,
             ),
           ],
         ),

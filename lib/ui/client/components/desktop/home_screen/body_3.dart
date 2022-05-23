@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:story_kids/managers/client/local_content_provider.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
-
-import '../../../../../managers/client/local_content_provider.dart';
+import 'package:story_kids/ui/resources/colors.dart';
 
 class Body3 extends StatelessWidget {
   const Body3({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class Body3 extends StatelessWidget {
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
     return Container(
-      color: Colors.green,
+      color: primaryColor,
       child: Column(
         children: [
           SizedBox(
@@ -49,7 +49,7 @@ class Body3 extends StatelessWidget {
                 width: uiManager.blockSizeHorizontal * 30,
                 height: uiManager.blockSizeVertical * 30,
                 child: Image.network(
-                  LocalResourcesManager.homeScreen2!,
+                  LocalContentProvider.instance.homeScreen2!,
                 ),
               ),
             ],

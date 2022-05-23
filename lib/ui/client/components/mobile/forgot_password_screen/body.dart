@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/blocs/client/forgot_password_bloc.dart';
+import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
 import 'package:story_kids/models/client/enums.dart';
-import 'package:story_kids/ui/client/components/utils_views/failure_input_widget.dart';
-import 'package:story_kids/ui/client/components/utils_views/forgot_password_body.dart';
-import 'package:story_kids/ui/client/components/utils_views/progress_input_widget.dart';
-import 'package:story_kids/ui/client/components/utils_views/success_input_widget.dart';
+import 'package:story_kids/ui/client/components/util_views/failure_input_widget.dart';
+import 'package:story_kids/ui/client/components/util_views/forgot_input_widget.dart';
+import 'package:story_kids/ui/client/components/util_views/progress_input_widget.dart';
+import 'package:story_kids/ui/client/components/util_views/success_input_widget.dart';
+import 'package:story_kids/ui/client/screens/universal/home_screen.dart';
 
 class ForgetBodyMobile extends StatelessWidget {
   const ForgetBodyMobile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    UiManager uiManager = UiManager(context);
+    UiManager uiManager = UiManager(context, mode: "avg");
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
     TextEditingController mailController = TextEditingController();
 
@@ -29,7 +31,7 @@ class ForgetBodyMobile extends StatelessWidget {
             uiManager,
             fbloc,
             () => fbloc.add(BackToInputEvent()),
-            () => fbloc.add(BackToInputEvent()),
+            () => NavigationManager.instance.pushNamed(HomeScreen.path, null),
             currentLocale,
             mailController,
           );
@@ -51,11 +53,11 @@ class ForgetBodyMobile extends StatelessWidget {
       case InputStatus.progress:
         return ProgressInputWidget(
           uiManager: uiManager,
-          title: "AAADIP progress title",
+          title: currentLocale.restoring_progress,
           mobileVersion: true,
         );
       case InputStatus.inputWait:
-        return ForgotPasswordBody(
+        return ForgotInputWidget(
           uiManager: uiManager,
           mobileVersion: true,
           fbloc: fbloc,
@@ -64,18 +66,18 @@ class ForgetBodyMobile extends StatelessWidget {
         );
       case InputStatus.failure:
         return FailureInputWidget(
-          title: "AAADIP title",
-          subtitle: "AAADIP subtitle",
-          buttonLabel: "button label",
+          title: currentLocale.failure,
+          subtitle: fbloc.state.errorMessage,
+          buttonLabel: currentLocale.back,
           uiManager: uiManager,
           mobileVersion: true,
           onButtonPressed: onFailurePressed,
         );
       case InputStatus.success:
         return SuccessInputWidget(
-          title: "AAADIP title",
-          subtitle: "AAADIP subtitle",
-          buttonLabel: "AAADIP button label",
+          title: currentLocale.success,
+          subtitle: currentLocale.restoring_success,
+          buttonLabel: currentLocale.back_to_main,
           uiManager: uiManager,
           mobileVersion: true,
           onButtonPressed: onSuccessPressed,

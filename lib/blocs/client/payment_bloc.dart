@@ -1,27 +1,22 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:story_kids/managers/client/auth_manager.dart';
+import 'package:story_kids/managers/client/input_validation_manager.dart';
 import 'package:story_kids/models/client/enums.dart';
-import 'package:story_kids/ui/resources/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaymentEvent {}
 
 class ChangePaymentMethodEvent extends PaymentEvent {
-  int index = 0;
-
+  final int index;
   ChangePaymentMethodEvent({required this.index});
 }
 
 class BackToInputPaymentEvent extends PaymentEvent {}
 
 class ConfirmPaymentEvent extends PaymentEvent {
-  final String action;
-  final String planName;
-
-  ConfirmPaymentEvent({
-    required this.action,
-    required this.planName,
-  });
+  final AppLocalizations currentLocale;
+  ConfirmPaymentEvent({required this.currentLocale});
 }
 
 class ChangeInputEvent extends PaymentEvent {
@@ -41,9 +36,8 @@ class ChangeInputEvent extends PaymentEvent {
 class PaymentState extends Equatable {
   int version;
 
-  late List<bool> isSelected;
   PaymentTools paymentTool;
-  Color creditCardColor = cardPurple;
+  late List<bool> isSelected;
 
   final List<PaymentTools> paymentTools = [
     PaymentTools.stripe,
@@ -60,7 +54,6 @@ class PaymentState extends Equatable {
   String expiryDate;
   String errorMessage;
   String cardHolderName;
-
   InputStatus status;
 
   PaymentState({
@@ -103,8 +96,45 @@ class PaymentState extends Equatable {
     paymentTool = paymentTools[index];
   }
 
-  void updateVersion() {
+  void backToInput() {
     version++;
+    status = InputStatus.inputWait;
+  }
+
+  Future<void> processPayment(
+    String cardNumber,
+    String expiryDate,
+    String cvvCode,
+    String chosenPaymentTool,
+    AppLocalizations currentLocale,
+  ) async {
+    version++;
+    var check = await InputValidationManager.validatePayment(
+      cardNumber,
+      expiryDate,
+      cvvCode,
+      currentLocale,
+    );
+
+    if (!check["valid"]) {
+      status = InputStatus.failure;
+      errorMessage = check["description"];
+    } else {
+      var response = await AuthManager.instance.user!.performUpdateOrPayment(
+        cardNumber,
+        expiryDate,
+        cvvCode,
+        chosenPaymentTool,
+      );
+
+      status = response["result"] == "error"
+          ? InputStatus.failure
+          : InputStatus.success;
+
+      errorMessage = response["result"] == "error"
+          ? errorMessage = response["description"]
+          : "";
+    }
   }
 }
 
@@ -113,32 +143,50 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   @override
   Stream<PaymentState> mapEventToState(PaymentEvent event) async* {
-    InputStatus nextStatus = InputStatus.inputWait;
+    switch (event.runtimeType) {
+      case ChangePaymentMethodEvent:
+        event as ChangePaymentMethodEvent;
+        state.updatePaymentMethod(event.index);
+        break;
 
-    if (event is ChangePaymentMethodEvent) {
-      state.updatePaymentMethod(event.index);
-    } else if (event is ChangeInputEvent) {
-      state.updateInput(
-        event.newCardNumber,
-        event.newExpiryDate,
-        event.newCardHolderName,
-        event.newCvvCode,
-      );
-    } else if (event is ConfirmPaymentEvent) {
-      yield PaymentState(
-        version: -2,
-        status: InputStatus.progress,
-      );
+      case ChangeInputEvent:
+        event as ChangeInputEvent;
+        state.updateInput(
+          event.newCardNumber,
+          event.newExpiryDate,
+          event.newCardHolderName,
+          event.newCvvCode,
+        );
+        break;
 
-      if (event.action == "create") {
-      } else if (event.action == "update") {}
+      case ConfirmPaymentEvent:
+        event as ConfirmPaymentEvent;
+        String cvvCode = state.cvvCode;
+        String cardNumber = state.cardNumber;
+        String expiryDate = state.expiryDate;
 
-      // nextStatus = InputStatus.progress;
-      // state.errorMessage = "Error message from bloc";
-      await Future.delayed(const Duration(seconds: 2)); // AAADIP remove later
-    } else if (event is BackToInputPaymentEvent) {
-      state.updateVersion();
-      nextStatus = InputStatus.inputWait;
+        AppLocalizations currentLocale = event.currentLocale;
+        String chosenPaymentTool =
+            state.paymentTool == PaymentTools.liqPay ? "LiqPay" : "Stripe";
+
+        yield PaymentState(
+          version: state.version--,
+          status: InputStatus.progress,
+        );
+
+        await state.processPayment(
+          cardNumber,
+          expiryDate,
+          cvvCode,
+          chosenPaymentTool,
+          currentLocale,
+        );
+        break;
+
+      case BackToInputPaymentEvent:
+        event as BackToInputPaymentEvent;
+        state.backToInput();
+        break;
     }
 
     yield PaymentState(
@@ -148,7 +196,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       paymentTool: state.paymentTool,
       cardHolderName: state.cardHolderName,
       errorMessage: state.errorMessage,
-      status: nextStatus,
+      status: state.status,
     );
   }
 }

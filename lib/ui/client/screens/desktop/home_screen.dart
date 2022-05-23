@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:story_kids/ui/client/components/desktop/home_screen/body.dart';
-import 'package:story_kids/ui/client/components/utils_views/header_desktop.dart';
+import 'package:story_kids/ui/client/components/util_views/header_desktop.dart';
 
 class HomeScreenDesktop extends StatelessWidget {
   const HomeScreenDesktop({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class HomeScreenDesktop extends StatelessWidget {
       body: SingleChildScrollView(
         child: StickyHeader(
           header: const HeaderDesktop(),
-          content: const BodyDesktop(),
+          content: const HomeBodyDesktop(),
         ),
       ),
     );

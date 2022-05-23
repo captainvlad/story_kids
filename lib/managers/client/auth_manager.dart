@@ -1,34 +1,41 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:story_kids/models/client/user.dart';
+import 'package:story_kids/managers/client/preference_content_provider.dart';
+import 'package:story_kids/models/client/user_model.dart';
+import 'package:story_kids/managers/client/user_storage_manager.dart';
 
 class AuthManager {
-  static User? user;
+  static final AuthManager instance = AuthManager._internal();
+  UserModel? user;
 
-  static Future<void> initApp() async {
-    WidgetsFlutterBinding.ensureInitialized();
+  AuthManager._internal();
+  bool userLoggedIn() => user != null;
+
+  Future<void> initializeFromPrefs() async {
+    List<String> userCreds = await PreferenceProvider.instance.getUserCreds();
+
+    if (userCreds.isNotEmpty) {
+      await logInUser(userCreds[0], userCreds[1], true);
+    }
   }
 
-  static Future<String> logInUser(
-    String login,
+  Future<String> logInUser(
+    String email,
     String password,
     bool rememberMe,
   ) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
+    await auth.setPersistence(
+      rememberMe ? Persistence.SESSION : Persistence.LOCAL,
+    );
+
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-        email: login,
+      await auth.signInWithEmailAndPassword(
+        email: email,
         password: password,
       );
 
-      if (rememberMe) {
-        rememberUser();
-      }
-
-      user = userCredential.user;
-      await UserModel.initializeUser(); // AAADIP remove later
+      user = await UserStorageManager.instance.getUserByMail(email);
       return "Success";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -39,59 +46,68 @@ class AuthManager {
         return e.message ?? "Unknown error happened";
       }
     } catch (e) {
-      return e.toString();
+      return "Unexpected error: ${e.toString()}";
     }
   }
 
-  static Future<String> registerUser(
+  Future<String> registerUser(
+    String name,
     String username,
+    String surname,
     String email,
     String password,
+    String chosenPlanName,
   ) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+      await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      user = userCredential.user;
-      await user?.updateDisplayName(username);
-      await user?.reload();
+      await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-      user = auth.currentUser;
+      user = await UserStorageManager.instance.addUser(
+        UserModel(
+          mail: email,
+          name: name,
+          surname: surname,
+          password: password,
+          userName: username,
+          chosenPlanName: chosenPlanName,
+        ),
+      );
+
       return "Success";
     } catch (e) {
-      return e.toString();
+      return "Unknown error: ${e.toString()}";
     }
   }
 
-  static Future<void> logOutUser() async {
+  Future<void> logOutUser() async {
     await FirebaseAuth.instance.signOut();
     user = null;
   }
 
-  static bool userLoggedIn() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    return auth.currentUser?.uid == null ? false : true;
-  }
-
-  static void rememberUser() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    auth.setPersistence(Persistence.SESSION);
-  }
-
-  static Future<String> getUserId() async {
-    return await user?.getIdToken() ?? "-";
-  }
-
-  static Future<bool> userWithMailExists(String email) async {
+  Future<bool> userWithMailExists(String email) async {
     try {
-      var list = await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
-      return list.isNotEmpty;
+      var users = await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+      return users.isNotEmpty;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<String> restoreUserPassword(String emailValue) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailValue);
+      return "Success";
+    } catch (e) {
+      return e.toString();
     }
   }
 }

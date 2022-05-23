@@ -2,29 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:story_kids/managers/client/local_content_provider.dart';
 import 'package:story_kids/ui/client/components/mobile/failure_screen/body.dart';
-import 'package:story_kids/ui/client/components/utils_views/header_mobile.dart';
+import 'package:story_kids/ui/client/components/util_views/header_mobile.dart';
+import 'package:story_kids/ui/resources/colors.dart';
 
 class FailureScreenMobile extends StatelessWidget {
-  const FailureScreenMobile({Key? key}) : super(key: key);
+  final void Function() onButtonPressed;
+  final String errorDescription;
+
+  const FailureScreenMobile({
+    required this.onButtonPressed,
+    required this.errorDescription,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    BoxDecoration screenDecoration =
+        LocalContentProvider.instance.getScreenDecoration(
+      preferredBackGroundImage:
+          LocalContentProvider.instance.lightBackgroundImage,
+    );
+
     return Scaffold(
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: Image.network(
-              LocalResourcesManager.darkBackgroundImage!,
-            ).image,
-            fit: BoxFit.cover,
-          ),
-        ),
+        decoration: screenDecoration,
         child: SingleChildScrollView(
           child: StickyHeader(
             header: const HeaderMobile(),
-            content: const FailureBodyMobile(),
+            content: FailureBodyMobile(
+              onButtonPressed: onButtonPressed,
+              errorDescription: errorDescription,
+            ),
           ),
         ),
       ),

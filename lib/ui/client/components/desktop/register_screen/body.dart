@@ -4,10 +4,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/blocs/client/register_bloc.dart';
 import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
-import 'package:story_kids/ui/client/components/utils_views/cards_list_view.dart';
-import 'package:story_kids/ui/client/components/utils_views/divider.dart';
-import 'package:story_kids/ui/client/components/utils_views/register_form.dart';
-import 'package:story_kids/ui/client/components/utils_views/rounded_button.dart';
+import 'package:story_kids/ui/client/components/util_views/cards_list_view.dart';
+import 'package:story_kids/ui/client/components/util_views/divider.dart';
+import 'package:story_kids/ui/client/components/desktop/register_screen/register_form.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
 import 'package:story_kids/ui/client/screens/universal/login_screen.dart';
 import 'package:story_kids/ui/resources/colors.dart';
 
@@ -59,7 +59,8 @@ class RegisterBodyDesktop extends StatelessWidget {
                       fillColor: secondaryColor,
                       strokeColor: secondaryColor,
                       onPressed: () {
-                        NavigationManager.pushNamed(LogInScreen.path, null);
+                        NavigationManager.instance
+                            .pushNamed(LogInScreen.path, null);
                       },
                     ),
                   ],
@@ -195,6 +196,7 @@ class RegisterBodyDesktop extends StatelessWidget {
                             surnameText: surnameController.text,
                             usernameText: usernameController.text,
                             passwordText: passwordController.text,
+                            currentLocale: currentLocale,
                           ),
                         );
                       },

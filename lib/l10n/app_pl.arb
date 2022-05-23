@@ -67,6 +67,7 @@
     "username": "NAZWA UŻYTKOWNIKA",
     "password": "HASŁO",
     "username_lower": "Nazwa użytkownika",
+    "email_lower": "E-mail",
     "name": "Imię",
     "surname": "Nazwisko",
     "mail": "E-mail",
@@ -92,5 +93,18 @@
     "user_already_exists": "Użytkownik z takim adresem e-mail już istnieje",
     "log_in_successful": "Logowanie zakończone sukcesem",
     "success": "Powodzenie",
-    "log_in_progress": "Trwa proces logowania"
+    "log_in_progress": "Trwa proces logowania",
+    "error_unknown": "Błąd jest nieznany",
+    "restoring_progress": "Trwa przywracanie hasła",
+    "restoring_success": "E-mail dotyczący resetowania został wysłany na Twój adres e-mail",
+    "card_number_invalid": "Nieprawidłowy numer karty",
+    "cvv_number_invalid": "Nieprawidłowy numer CVV",
+    "date_number_invalid": "Nieprawidłowa data ważności",
+    "no_plan": "Nie wybrano planu",
+    "username_invalid": "Nieprawidłowa nazwa użytkownika",
+    "name_invalid": "Nieprawidłowe imię",
+    "surname_invalid": "Nazwisko nieprawidłowe",
+    "email_invalid": "Nieprawidłowy e-mail",
+    "password_invalid": "Hasło nieprawidłowe, musi mieć co najmniej 6+ znaków",
+    "no_user": "Użytkownik z takimi danymi uwierzytelniającymi nie istnieje"
 }

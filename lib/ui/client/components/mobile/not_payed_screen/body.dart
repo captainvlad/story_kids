@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
-import 'package:story_kids/ui/client/components/utils_views/rounded_button.dart';
-import 'package:story_kids/ui/client/screens/universal/login_screen.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
 import 'package:story_kids/ui/client/screens/universal/payment_screen.dart';
 import 'package:story_kids/ui/resources/colors.dart';
 
@@ -12,7 +11,7 @@ class NotPayedBodyMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UiManager uiManager = UiManager(context);
+    UiManager uiManager = UiManager(context, mode: "avg");
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
     return Column(
@@ -22,7 +21,7 @@ class NotPayedBodyMobile extends StatelessWidget {
           width: double.infinity,
         ),
         Container(
-          width: uiManager.blockSizeHorizontal * 60,
+          width: uiManager.blockSizeHorizontal * 80,
           decoration: const BoxDecoration(
             color: secondaryColor,
             borderRadius: BorderRadius.all(
@@ -58,7 +57,7 @@ class NotPayedBodyMobile extends StatelessWidget {
               fillColor: primaryColor,
               strokeColor: primaryColor,
               onPressed: () {
-                NavigationManager.pushNamed(PaymentScreen.path, null);
+                NavigationManager.instance.pushNamed(PaymentScreen.path, null);
               },
             ),
             SizedBox(

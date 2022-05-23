@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:story_kids/managers/client/auth_manager.dart';
+import 'package:story_kids/managers/client/input_validation_manager.dart';
 import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/remote_content_provider.dart';
 import 'package:story_kids/models/client/enums.dart';
@@ -8,6 +9,7 @@ import 'package:story_kids/models/client/plan.dart';
 import 'package:story_kids/ui/client/screens/universal/failure_screen.dart';
 import 'package:story_kids/ui/client/screens/universal/payment_screen.dart';
 import 'package:story_kids/ui/client/screens/universal/progress_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterEvent {}
 
@@ -35,6 +37,7 @@ class ProcessRegisterInput extends RegisterEvent {
   final String surnameText;
   final String usernameText;
   final String passwordText;
+  final AppLocalizations currentLocale;
 
   ProcessRegisterInput({
     required this.nameText,
@@ -42,6 +45,7 @@ class ProcessRegisterInput extends RegisterEvent {
     required this.surnameText,
     required this.usernameText,
     required this.passwordText,
+    required this.currentLocale,
   });
 
   bool validTextInput() {
@@ -113,31 +117,52 @@ class RegisterState extends Equatable {
     }
   }
 
-  Future<void> checkInput(ProcessRegisterInput event) async {
+  Future<void> processInput(ProcessRegisterInput event) async {
     version++;
-    bool planChosen = availablePlans.any(
-      (element) => element.active == true,
-    );
+
+    bool anyPlanChosen =
+        availablePlans.any((element) => element.active == true);
 
     bool userAlreadyExists =
-        await AuthManager.userWithMailExists(event.mailText);
+        await AuthManager.instance.userWithMailExists(event.mailText);
 
-    // AAADIP create a strings for this
-    if (!planChosen) {
-      errorMessage = "Plan not chosen. Please, choose one";
-    } else if (!event.validTextInput()) {
-      errorMessage = "Please, fill in all input forms";
+    var check = await InputValidationManager.validateRegister(
+      anyPlanChosen,
+      event.usernameText,
+      event.mailText,
+      event.surnameText,
+      event.mailText,
+      event.passwordText,
+      event.currentLocale,
+    );
+
+    if (!check["valid"]) {
+      status = InputStatus.failure;
+      errorMessage = check["description"];
     } else if (userAlreadyExists) {
-      errorMessage = "User with such mail already exists";
+      status = InputStatus.failure;
+      errorMessage = event.currentLocale.user_already_exists;
     } else {
-      errorMessage = "";
+      String registerResponse = await AuthManager.instance.registerUser(
+        event.nameText,
+        event.usernameText,
+        event.surnameText,
+        event.mailText,
+        event.passwordText,
+        activePlan.name,
+      );
+
+      errorMessage = registerResponse == "Success" ? "" : registerResponse;
+      status = registerResponse == "Success"
+          ? InputStatus.success
+          : InputStatus.failure;
     }
   }
 
   Future<void> initPlans() async {
     version++;
     initialized = true;
-    availablePlans = await ContentProvider.getPlans();
+    availablePlans = await RemoteContentProvider.instance.plans;
   }
 }
 
@@ -146,41 +171,53 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   @override
   Stream<RegisterState> mapEventToState(RegisterEvent event) async* {
-    if (event is ChangeActivePlan) {
-      state.changeActivePlan(event.index);
-    } else if (event is ValidatePassword) {
-      state.validatePassword(event.password);
-    } else if (event is InitialializePlans) {
-      NavigationManager.pushNamed(ProgressScreen.path, null);
-      await state.initPlans();
-      NavigationManager.popScreen();
-    } else if (event is ProcessRegisterInput) {
-      NavigationManager.pushNamed(ProgressScreen.path, null);
-      await Future.delayed(const Duration(seconds: 2)); // AAADIP remove later
-      await state.checkInput(event);
+    switch (event.runtimeType) {
+      case ChangeActivePlan:
+        event as ChangeActivePlan;
+        state.changeActivePlan(event.index);
+        break;
 
-      if (state.errorMessage.isEmpty) {
-        await AuthManager.registerUser(
-            event.nameText, event.mailText, event.passwordText);
+      case ValidatePassword:
+        event as ValidatePassword;
+        state.validatePassword(event.password);
+        break;
 
-        NavigationManager.popScreen();
-        NavigationManager.pushNamed(
-            PaymentScreen.path, {"planName": state.activePlan.name});
-      } else {
-        NavigationManager.popScreen();
-        NavigationManager.pushNamed(
-            FailureScreen.path, {"description": state.errorMessage});
-      }
+      case InitialializePlans:
+        event as InitialializePlans;
+        NavigationManager.instance.pushNamed(ProgressScreen.path, null);
+        await state.initPlans();
+        NavigationManager.instance.popScreen();
+        break;
+
+      case ProcessRegisterInput:
+        event as ProcessRegisterInput;
+        NavigationManager.instance.pushNamed(ProgressScreen.path, null);
+        await state.processInput(event);
+
+        NavigationManager.instance.popScreen();
+        if (state.status == InputStatus.success) {
+          NavigationManager.instance.pushNamed(PaymentScreen.path, null);
+        } else if (state.status == InputStatus.failure) {
+          var arguments = {
+            "description": state.errorMessage,
+            "onButtonPressed": () {
+              NavigationManager.instance.popScreen();
+            }
+          };
+
+          NavigationManager.instance.pushNamed(FailureScreen.path, arguments);
+        }
+
+        break;
     }
 
-    RegisterState st = RegisterState();
-    st.hideText = state.hideText;
-    st.rememberMe = state.rememberMe;
-    st.complexity = state.complexity;
-    st.initialized = state.initialized;
-    st.errorMessage = state.errorMessage;
-    st.availablePlans = state.availablePlans;
-
-    yield st;
+    RegisterState newState = RegisterState();
+    newState.hideText = state.hideText;
+    newState.rememberMe = state.rememberMe;
+    newState.complexity = state.complexity;
+    newState.initialized = state.initialized;
+    newState.errorMessage = state.errorMessage;
+    newState.availablePlans = state.availablePlans;
+    yield newState;
   }
 }

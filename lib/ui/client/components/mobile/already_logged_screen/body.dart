@@ -5,7 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/managers/client/auth_manager.dart';
 import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
-import 'package:story_kids/ui/client/components/utils_views/rounded_button.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
+import 'package:story_kids/ui/client/screens/universal/home_screen.dart';
 import 'package:story_kids/ui/client/screens/universal/library_screen.dart';
 import 'package:story_kids/ui/client/screens/universal/progress_screen.dart';
 import 'package:story_kids/ui/resources/colors.dart';
@@ -15,7 +16,7 @@ class AlreadyLoggedBodyMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UiManager uiManager = UiManager(context);
+    UiManager uiManager = UiManager(context, mode: "avg");
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
     return Column(
@@ -25,7 +26,7 @@ class AlreadyLoggedBodyMobile extends StatelessWidget {
           width: double.infinity,
         ),
         Container(
-          width: uiManager.blockSizeHorizontal * 60,
+          width: uiManager.blockSizeHorizontal * 80,
           decoration: const BoxDecoration(
             color: secondaryColor,
             borderRadius: BorderRadius.all(
@@ -61,8 +62,7 @@ class AlreadyLoggedBodyMobile extends StatelessWidget {
               fillColor: primaryColor,
               strokeColor: primaryColor,
               onPressed: () {
-                NavigationManager.backToMain();
-                NavigationManager.pushNamed(LibraryScreen.path, null);
+                NavigationManager.instance.pushNamed(LibraryScreen.path, null);
               },
             ),
             SizedBox(
@@ -87,10 +87,10 @@ class AlreadyLoggedBodyMobile extends StatelessWidget {
               fillColor: primaryColor,
               strokeColor: primaryColor,
               onPressed: () async {
-                NavigationManager.pushNamed(ProgressScreen.path, null);
-                await AuthManager.logOutUser();
+                NavigationManager.instance.pushNamed(ProgressScreen.path, null);
+                await AuthManager.instance.logOutUser();
                 await Future.delayed(const Duration(seconds: 2));
-                NavigationManager.backToMain();
+                NavigationManager.instance.pushNamed(HomeScreen.path, null);
               },
             ),
             SizedBox(

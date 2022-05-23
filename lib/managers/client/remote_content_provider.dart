@@ -1,253 +1,112 @@
-import 'dart:typed_data';
-
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:story_kids/managers/client/backend_utils.dart';
+import 'package:story_kids/managers/client/abstract_content_provider.dart';
+import 'package:story_kids/managers/client/download_manager.dart';
 import 'package:story_kids/models/client/media_content.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:story_kids/models/client/plan.dart';
+import 'package:story_kids/models/client/utils.dart';
 
-class ContentProvider {
-  static String plansDirectory = "plans";
-  static String mediaDirectory = "media";
-  static String configDirectory = "config";
+class RemoteContentProvider extends AbstractContentProvider {
+  static final RemoteContentProvider instance =
+      RemoteContentProvider._internal();
 
-  static String _lastTimeUpdated = "";
-  static String changesFilename = "changes.json";
-  static String liqPayCredsFilename = "liqpay_credentials.json";
-  static String stripeCredsFilename = "stripe_credentials.json";
+  List<Plan>? _plans;
+  String localeCode = 'uk';
+  bool contentInitialized = false;
 
-  static List<Plan> _plans = [];
-  static List<MediaContent> _content = [];
-  static Map<String, dynamic> _liqPayCredentials = {};
-  static Map<String, dynamic> _stripeCredentials = {};
+  List<MediaContent>? _content;
+  RemoteContentProvider._internal();
 
-  static Future initialize() async {
-    if (await _shouldUpdate()) {
-      _plans = await _downloadPlans();
-      _content = await _downloadContent();
-      _lastTimeUpdated = await _getLastModified();
-      _liqPayCredentials = await getLiqPayCredentials();
-      _stripeCredentials = await getStripeCredentials();
-    }
-  }
-
-  static Future<List<Plan>> getPlans() async {
-    if (await _shouldUpdate()) {
-      await initialize();
+  Future<List<MediaContent>> get content async {
+    if (_content == null) {
+      contentInitialized = true;
+      await _initContent();
     }
 
-    return _plans;
+    return _content!;
   }
 
-  static Future<Plan?> getPlanByName(String name) async {
-    List<Plan> plans = await getPlans();
-    Iterable<Plan> result = plans.where((element) => element.name == name);
-
-    return result.isEmpty ? null : result.first;
-  }
-
-  static Future<List<MediaContent>> getContent() async {
-    if (await _shouldUpdate()) {
-      await initialize();
+  Future<List<Plan>> get plans async {
+    if (_plans == null) {
+      await _initPlans();
     }
 
-    return _content;
+    return _plans!;
   }
 
-  static Future<bool> _shouldUpdate() async {
-    return _lastTimeUpdated != await _getLastModified();
+  @override
+  Future<void> initResources() async {
+    await _initPlans();
+    await _initContent();
   }
 
-  static Future<String> _getLastModified() async {
-    ListResult allDirs = await FirebaseStorage.instance.ref().listAll();
+  @override
+  void releaseResources() {
+    contentInitialized = false;
 
-    ListResult configDir = await allDirs.prefixes
-        .firstWhere(
-          (element) => element.name == configDirectory,
-        )
-        .listAll();
-
-    Uint8List? downloadedData = await configDir.items
-        .firstWhere(
-          (element) => element.name == changesFilename,
-        )
-        .getData();
-
-    return BackendUtils.bytesToLastModified(downloadedData);
+    _plans = null;
+    _content = null;
   }
 
-  static Future<List<Plan>> _downloadPlans() async {
-    List<Plan> result = [];
-    ListResult storageContent = await FirebaseStorage.instance.ref().listAll();
+  @override
+  Future<void> updateResources() async {
+    releaseResources();
+    await initResources();
+  }
 
-    ListResult plansFiles = await storageContent.prefixes
-        .firstWhere(
-          (element) => element.name == plansDirectory,
-        )
-        .listAll();
+  Future<Plan?> getPlanByName(String name) async {
+    String remPlansPath = "plans/";
 
-    List<Reference> validLocalePlans = plansFiles.items
+    ListResult plansReference =
+        await DownloadManager.instance.dirByPath(remPlansPath);
+
+    for (Reference element in plansReference.items) {
+      Plan potentialResult = await DownloadManager.instance.refToPlan(element);
+
+      if (potentialResult.name == name) {
+        return potentialResult;
+      }
+    }
+
+    return null;
+  }
+
+  Future<void> _initPlans() async {
+    _plans = [];
+    String remPlansPath = "plans/";
+
+    ListResult plansReference =
+        await DownloadManager.instance.dirByPath(remPlansPath);
+
+    List<Reference> validLocaleContent = plansReference.items
         .where(
-          (element) => BackendUtils.validLocale("en", element.name),
+          (element) => Utils.validLocale(localeCode, element.fullPath),
         )
         .toList();
 
-    for (Reference r in validLocalePlans) {
-      result.add(
-        BackendUtils.bytesToPlan(await r.getData()),
+    for (Reference element in validLocaleContent) {
+      _plans!.add(
+        await DownloadManager.instance.refToPlan(element),
       );
     }
-
-    return result;
   }
 
-  static Future<List<MediaContent>> _downloadContent() async {
-    List<MediaContent> result = [];
-    ListResult storageContent = await FirebaseStorage.instance.ref().listAll();
+  Future<void> _initContent() async {
+    _content = [];
+    String remContentPath = "media/";
 
-    ListResult contentFiles = await storageContent.prefixes
-        .firstWhere(
-          (element) => element.name == mediaDirectory,
-        )
-        .listAll();
+    ListResult contentReference =
+        await DownloadManager.instance.dirByPath(remContentPath);
 
-    List<Reference> validLocaleContent = contentFiles.prefixes
+    List<Reference> validLocaleContent = contentReference.prefixes
         .where(
-          (element) => BackendUtils.validLocale("en", element.name),
+          (element) => Utils.validLocale(localeCode, element.fullPath),
         )
         .toList();
 
-    for (Reference r in validLocaleContent) {
-      result.add(
-        await BackendUtils.dirToContent(r),
+    for (Reference reference in validLocaleContent) {
+      _content!.add(
+        await DownloadManager.instance.dirRefToContent(reference),
       );
     }
-
-    return result;
   }
-
-  static Future<Map<String, dynamic>> getLiqPayCredentials() async {
-    if (_stripeCredentials.isEmpty || await _shouldUpdate()) {
-      ListResult allDirs = await FirebaseStorage.instance.ref().listAll();
-
-      ListResult configDir = await allDirs.prefixes
-          .firstWhere(
-            (element) => element.name == configDirectory,
-          )
-          .listAll();
-
-      Uint8List? downloadedData = await configDir.items
-          .firstWhere(
-            (element) => element.name == stripeCredsFilename,
-          )
-          .getData();
-
-      _stripeCredentials = BackendUtils.bytesToJson(downloadedData);
-    }
-
-    return _stripeCredentials;
-  }
-
-  static Future<Map<String, dynamic>> getStripeCredentials() async {
-    if (_liqPayCredentials.isEmpty || await _shouldUpdate()) {
-      ListResult allDirs = await FirebaseStorage.instance.ref().listAll();
-
-      ListResult configDir = await allDirs.prefixes
-          .firstWhere(
-            (element) => element.name == configDirectory,
-          )
-          .listAll();
-
-      Uint8List? downloadedData = await configDir.items
-          .firstWhere(
-            (element) => element.name == liqPayCredsFilename,
-          )
-          .getData();
-
-      _liqPayCredentials = BackendUtils.bytesToJson(downloadedData);
-    }
-
-    return _liqPayCredentials;
-  }
-
-  static Future<String> updateLiqPayCredentials(
-    String publicKey,
-    String privateKey,
-  ) async {
-    try {
-      ListResult allDirs = await FirebaseStorage.instance.ref().listAll();
-
-      ListResult configDir = await allDirs.prefixes
-          .firstWhere(
-            (element) => element.name == configDirectory,
-          )
-          .listAll();
-
-      Reference changesFile = configDir.items.firstWhere(
-        (element) => element.name == stripeCredsFilename,
-      );
-
-      await changesFile.putString(
-        '{"public_key": "$publicKey", "private_key": "$privateKey"}',
-      );
-
-      await _updateLastModified();
-      return "Success";
-    } catch (e) {
-      return e.toString();
-    }
-  }
-
-  static Future<String> updateStripeCredentials(String secretKey) async {
-    try {
-      ListResult allDirs = await FirebaseStorage.instance.ref().listAll();
-
-      ListResult configDir = await allDirs.prefixes
-          .firstWhere(
-            (element) => element.name == configDirectory,
-          )
-          .listAll();
-
-      Reference changesFile = configDir.items.firstWhere(
-        (element) => element.name == liqPayCredsFilename,
-      );
-
-      await changesFile.putString(
-        '{"secret_key": "$secretKey"}',
-      );
-
-      await _updateLastModified();
-      return "Success";
-    } catch (e) {
-      return e.toString();
-    }
-  }
-
-  static Future<String> _updateLastModified() async {
-    try {
-      int currentTime = BackendUtils.getMilliseconds();
-
-      ListResult allDirs = await FirebaseStorage.instance.ref().listAll();
-
-      ListResult configDir = await allDirs.prefixes
-          .firstWhere(
-            (element) => element.name == configDirectory,
-          )
-          .listAll();
-
-      Reference changesFile = configDir.items.firstWhere(
-        (element) => element.name == changesFilename,
-      );
-
-      await changesFile.putString(
-        '{"last_updated": "$currentTime"}',
-      );
-
-      return "Success";
-    } catch (e) {
-      return e.toString();
-    }
-  }
-
-  // AAADIP create one unified method for getting reference and listreference from
-  // path and put it in predcessor class
 }

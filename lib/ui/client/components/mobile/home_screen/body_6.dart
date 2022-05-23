@@ -1,13 +1,10 @@
-import 'dart:math';
-
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:story_kids/managers/client/local_content_provider.dart';
 import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
-import 'package:story_kids/ui/client/components/utils_views/rounded_button.dart';
+import 'package:story_kids/ui/client/components/util_views/chewie_controller.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
 import 'package:story_kids/ui/client/screens/universal/library_screen.dart';
-import 'package:story_kids/ui/client/screens/universal/progress_screen.dart';
 import 'package:story_kids/ui/resources/colors.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,53 +14,22 @@ class Body6Mobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UiManager uiManager = UiManager(context);
+    const double standardVideoRatio = 16 / 9;
+    UiManager uiManager = UiManager(context, mode: "avg");
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
-    VideoPlayerController _videoController1 =
-        LocalResourcesManager.homeScreenSample1!;
+    VideoPlayerController? _videoController1 =
+        LocalContentProvider.instance.homeScreenSample1;
 
-    VideoPlayerController _videoController2 =
-        LocalResourcesManager.homeScreenSample2!;
-
-    ChewieController _chewieController1 = ChewieController(
-      videoPlayerController: _videoController1,
-      aspectRatio: 16 / 9,
-      autoInitialize: true,
-      errorBuilder: (context, errorMessage) {
-        return Center(
-          child: Text(
-            errorMessage,
-            style: const TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        );
-      },
-    );
-
-    ChewieController _chewieController2 = ChewieController(
-      videoPlayerController: _videoController2,
-      aspectRatio: 16 / 9,
-      autoInitialize: true,
-      errorBuilder: (context, errorMessage) {
-        return Center(
-          child: Text(
-            errorMessage,
-            style: const TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        );
-      },
-    );
+    VideoPlayerController? _videoController2 =
+        LocalContentProvider.instance.homeScreenSample2;
 
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: Image.network(
-            LocalResourcesManager.homeScreen8!,
+            LocalContentProvider.instance.homeScreen8!,
           ).image,
           fit: BoxFit.cover,
         ),
@@ -79,12 +45,14 @@ class Body6Mobile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                width: uiManager.blockSizeHorizontal * 90,
-                height: uiManager.blockSizeVertical * 28,
+                width: uiManager.mobileSizeUnit * 35 * standardVideoRatio,
+                height: uiManager.mobileSizeUnit * 35,
                 child: AspectRatio(
                   aspectRatio: 10,
-                  child: Chewie(
-                    controller: _chewieController1,
+                  child: CustomChewie(
+                    key: const Key("1-mobile"),
+                    controller: _videoController1!,
+                    aspectRatio: standardVideoRatio,
                   ),
                 ),
               ),
@@ -92,12 +60,14 @@ class Body6Mobile extends StatelessWidget {
                 height: uiManager.blockSizeHorizontal * 5,
               ),
               SizedBox(
-                width: uiManager.blockSizeHorizontal * 90,
-                height: uiManager.blockSizeVertical * 28,
+                width: uiManager.mobileSizeUnit * 35 * standardVideoRatio,
+                height: uiManager.mobileSizeUnit * 35,
                 child: AspectRatio(
                   aspectRatio: 10,
-                  child: Chewie(
-                    controller: _chewieController2,
+                  child: CustomChewie(
+                    key: const Key("2-mobile"),
+                    controller: _videoController2!,
+                    aspectRatio: standardVideoRatio,
                   ),
                 ),
               ),
@@ -115,7 +85,7 @@ class Body6Mobile extends StatelessWidget {
             fillColor: primaryColor,
             strokeColor: primaryColor,
             onPressed: () {
-              NavigationManager.pushNamed(LibraryScreen.path, null);
+              NavigationManager.instance.pushNamed(LibraryScreen.path, null);
             },
           ),
           SizedBox(

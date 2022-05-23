@@ -1,98 +1,113 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:story_kids/managers/client/abstract_content_provider.dart';
+import 'package:story_kids/managers/client/download_manager.dart';
+import 'package:story_kids/ui/resources/colors.dart';
 import 'package:video_player/video_player.dart';
 
-class LocalResourcesManager {
-  static String? homeScreen1;
-  static String? homeScreen2;
-  static String? homeScreen3;
-  static String? homeScreen4;
-  static String? homeScreen5;
-  static String? homeScreen6;
-  static String? homeScreen7;
-  static String? homeScreen8;
+class LocalContentProvider extends AbstractContentProvider {
+  static final LocalContentProvider instance = LocalContentProvider._internal();
 
-  static String? homeScreenSocial1;
-  static String? homeScreenSocial2;
-  static String? homeScreenSocial3;
-  static String? homeScreenSocial4;
+  String? homeScreen1,
+      homeScreen2,
+      homeScreen3,
+      homeScreen4,
+      homeScreen5,
+      homeScreen6,
+      homeScreen7,
+      homeScreen8;
 
-  static String? headerLogoImage;
-  static String? darkBackgroundImage;
-  static String? lightBackgroundImage;
+  String? homeScreenSocial1,
+      homeScreenSocial2,
+      homeScreenSocial3,
+      homeScreenSocial4;
 
-  static List<String>? localizationFlags;
-  static VideoPlayerController? homeScreenSample1;
-  static VideoPlayerController? homeScreenSample2;
-  static VideoPlayerController? homeScreenBackground;
+  VideoPlayerController? homeScreenSample1,
+      homeScreenSample2,
+      homeScreenBackground;
 
-  static initResources() async {
-    await initHomeScreens();
-    await initVideoControllers();
-    await initLocalizationFlags();
+  bool contentInitialized = false;
+  List<String>? localizationFlags;
+  String? headerLogoImage, darkBackgroundImage, lightBackgroundImage;
+
+  LocalContentProvider._internal();
+
+  @override
+  Future<void> initResources() async {
+    if (!contentInitialized) {
+      await _initHomeScreens();
+      await _initVideoControllers();
+      await _initLocalizationFlags();
+
+      contentInitialized = true;
+    }
   }
 
-  static updateResources() async {
+  @override
+  void releaseResources() {
+    homeScreen1 = null;
+    homeScreen2 = null;
+    homeScreen3 = null;
+    homeScreen4 = null;
+    homeScreen5 = null;
+    homeScreen6 = null;
+    homeScreen7 = null;
+    homeScreen8 = null;
+
+    localizationFlags = [];
+    headerLogoImage = null;
+    darkBackgroundImage = null;
+    lightBackgroundImage = null;
+
+    homeScreenSocial1 = null;
+    homeScreenSocial2 = null;
+    homeScreenSocial3 = null;
+    homeScreenSocial4 = null;
+
+    homeScreenSample1 = null;
+    homeScreenSample2 = null;
+    homeScreenBackground = null;
+  }
+
+  @override
+  Future<void> updateResources() async {
+    releaseResources();
     await initResources();
   }
 
-  static initLocalizationFlags() async {
-    String configDir = "config";
-    String localResDir = "local_resources";
-    String loccalizationFlagsDir = "localization_flags";
+  BoxDecoration getScreenDecoration({String? preferredBackGroundImage}) {
+    if (preferredBackGroundImage == null) {
+      return const BoxDecoration(
+        color: secondaryColor,
+      );
+    } else {
+      return BoxDecoration(
+        image: DecorationImage(
+          image: Image.network(preferredBackGroundImage).image,
+          fit: BoxFit.cover,
+        ),
+      );
+    }
+  }
 
-    ListResult storageContent = await FirebaseStorage.instance.ref().listAll();
+  _initLocalizationFlags() async {
+    String locFlagsPath = "config/local_resources/localization_flags/";
+    ListResult flagsReference =
+        await DownloadManager.instance.dirByPath(locFlagsPath);
+
     localizationFlags = [];
 
-    ListResult a = await storageContent.prefixes
-        .firstWhere(
-          (element) => element.name == configDir,
-        )
-        .listAll();
-
-    ListResult b = await a.prefixes
-        .firstWhere(
-          (element) => element.name == localResDir,
-        )
-        .listAll();
-
-    ListResult c = await b.prefixes
-        .firstWhere(
-          (element) => element.name == loccalizationFlagsDir,
-        )
-        .listAll();
-
-    for (Reference element in c.items) {
+    for (Reference element in flagsReference.items) {
       localizationFlags!.add(await element.getDownloadURL());
     }
   }
 
-  static initHomeScreens() async {
-    String configDir = "config";
-    String imagesDir = "images";
-    String localResDir = "local_resources";
+  _initHomeScreens() async {
+    String locFlagsPath = "config/local_resources/images/";
+    ListResult imgReference =
+        await DownloadManager.instance.dirByPath(locFlagsPath);
 
-    ListResult storageContent = await FirebaseStorage.instance.ref().listAll();
-    localizationFlags = [];
-
-    ListResult a = await storageContent.prefixes
-        .firstWhere(
-          (element) => element.name == configDir,
-        )
-        .listAll();
-
-    ListResult b = await a.prefixes
-        .firstWhere(
-          (element) => element.name == localResDir,
-        )
-        .listAll();
-
-    ListResult c = await b.prefixes
-        .firstWhere(
-          (element) => element.name == imagesDir,
-        )
-        .listAll();
-
-    for (var element in c.items) {
+    for (Reference element in imgReference.items) {
       switch (element.name) {
         case "home_screen_1.jpg":
           homeScreen1 = await element.getDownloadURL();
@@ -143,36 +158,23 @@ class LocalResourcesManager {
     }
   }
 
-  static initVideoControllers() async {
-    String configDir = "config";
-    String imagesDir = "videos";
-    String localResDir = "local_resources";
+  _initVideoControllers() async {
+    String locVideosPath = "config/local_resources/videos/";
+    ListResult videosReference =
+        await DownloadManager.instance.dirByPath(locVideosPath);
 
-    ListResult storageContent = await FirebaseStorage.instance.ref().listAll();
-    localizationFlags = [];
-
-    ListResult a = await storageContent.prefixes
-        .firstWhere(
-          (element) => element.name == configDir,
-        )
-        .listAll();
-
-    ListResult b = await a.prefixes
-        .firstWhere(
-          (element) => element.name == localResDir,
-        )
-        .listAll();
-
-    ListResult c = await b.prefixes
-        .firstWhere(
-          (element) => element.name == imagesDir,
-        )
-        .listAll();
-
-    for (var element in c.items) {
+    for (Reference element in videosReference.items) {
       if (element.name == "home_sceen_background.mp4") {
         homeScreenBackground =
             VideoPlayerController.network(await element.getDownloadURL());
+
+        await homeScreenBackground?.initialize().then(
+          (_) {
+            homeScreenBackground?.setVolume(0.0);
+            homeScreenBackground?.setLooping(true);
+            homeScreenBackground?.play();
+          },
+        );
       } else if (element.name == "home_screen_sample_1.mp4") {
         homeScreenSample1 =
             VideoPlayerController.network(await element.getDownloadURL());

@@ -67,6 +67,7 @@
     "username": "USER NAME",
     "password": "PASSWORD",
     "username_lower": "Username",
+    "email_lower": "E-mail",
     "name": "Name",
     "surname": "Surname",
     "mail": "E-mail",
@@ -92,5 +93,18 @@
     "user_already_exists": "User with such email already exists",
     "log_in_successful": "Login successful",
     "success": "Success",
-    "log_in_progress": "Log in process in progress"
+    "log_in_progress": "Log in process in progress",
+    "error_unknown": "Error is unknown",
+    "restoring_progress": "Password restore in progress",
+    "restoring_success": "Reset mail was sent to your email",
+    "card_number_invalid": "Card number invalid",
+    "cvv_number_invalid": "CVV number invalid",
+    "date_number_invalid": "Expire date invalid",
+    "no_plan": "No plan chosen",
+    "username_invalid": "Username invalid",
+    "name_invalid": "Name invalid",
+    "surname_invalid": "Surname invalid",
+    "email_invalid": "Email invalid",
+    "password_invalid": "Password invalid, must be 6+ symbols length",
+    "no_user": "User with such credentials does not exist"
 }

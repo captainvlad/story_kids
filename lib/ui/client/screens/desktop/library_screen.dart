@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:story_kids/ui/client/components/desktop/library_screen/body.dart';
-import 'package:story_kids/ui/client/components/utils_views/header_desktop.dart';
+import 'package:story_kids/ui/client/components/util_views/header_desktop.dart';
 
 class LibraryScreenDesktop extends StatelessWidget {
   const LibraryScreenDesktop({Key? key}) : super(key: key);

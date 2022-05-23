@@ -1,10 +1,8 @@
-import 'dart:math';
-
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
-import 'package:story_kids/ui/client/components/utils_views/rounded_button.dart';
+import 'package:story_kids/ui/client/components/util_views/chewie_controller.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
 import 'package:story_kids/ui/resources/colors.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,28 +17,12 @@ class VideoBodyMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UiManager uiManager = UiManager(context);
+    const double standardVideoRatio = 16 / 9;
+    UiManager uiManager = UiManager(context, mode: "avg");
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
     VideoPlayerController _videoController =
         VideoPlayerController.network(contentPath);
-
-    ChewieController _chewieController1 = ChewieController(
-      aspectRatio: 16 / 9,
-      videoPlayerController: _videoController,
-      errorBuilder: (context, errorMessage) {
-        print(errorMessage);
-
-        return Center(
-          child: Text(
-            errorMessage,
-            style: const TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        );
-      },
-    );
 
     return SizedBox(
       width: double.infinity,
@@ -59,7 +41,7 @@ class VideoBodyMobile extends StatelessWidget {
             fillColor: secondaryColor,
             strokeColor: secondaryColor,
             onPressed: () {
-              NavigationManager.popScreen();
+              NavigationManager.instance.popScreen();
             },
           ),
           SizedBox(
@@ -67,11 +49,13 @@ class VideoBodyMobile extends StatelessWidget {
           ),
           SizedBox(
             width: uiManager.blockSizeHorizontal * 80,
-            height: uiManager.blockSizeVertical * 40,
+            height: uiManager.blockSizeHorizontal * 80 / standardVideoRatio,
             child: AspectRatio(
               aspectRatio: 10,
-              child: Chewie(
-                controller: _chewieController1,
+              child: CustomChewie(
+                controller: _videoController,
+                aspectRatio: standardVideoRatio,
+                autoInitialize: false,
               ),
             ),
           ),

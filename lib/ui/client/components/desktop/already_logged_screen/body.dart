@@ -3,11 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/managers/client/auth_manager.dart';
 import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
+import 'package:story_kids/ui/client/screens/universal/home_screen.dart';
+import 'package:story_kids/ui/client/screens/universal/library_screen.dart';
 import 'package:story_kids/ui/client/screens/universal/progress_screen.dart';
-
-import '../../../../resources/colors.dart';
-import '../../../screens/universal/library_screen.dart';
-import '../../utils_views/rounded_button.dart';
+import 'package:story_kids/ui/resources/colors.dart';
 
 class AlreadyLoggedBodyDesktop extends StatelessWidget {
   const AlreadyLoggedBodyDesktop({Key? key}) : super(key: key);
@@ -60,8 +60,7 @@ class AlreadyLoggedBodyDesktop extends StatelessWidget {
               fillColor: primaryColor,
               strokeColor: primaryColor,
               onPressed: () {
-                NavigationManager.backToMain();
-                NavigationManager.pushNamed(LibraryScreen.path, null);
+                NavigationManager.instance.pushNamed(LibraryScreen.path, null);
               },
             ),
             SizedBox(
@@ -86,10 +85,9 @@ class AlreadyLoggedBodyDesktop extends StatelessWidget {
               fillColor: primaryColor,
               strokeColor: primaryColor,
               onPressed: () async {
-                NavigationManager.pushNamed(ProgressScreen.path, null);
-                await AuthManager.logOutUser();
-                await Future.delayed(const Duration(seconds: 2));
-                NavigationManager.backToMain();
+                NavigationManager.instance.pushNamed(ProgressScreen.path, null);
+                await AuthManager.instance.logOutUser();
+                NavigationManager.instance.pushNamed(HomeScreen.path, null);
               },
             ),
             SizedBox(

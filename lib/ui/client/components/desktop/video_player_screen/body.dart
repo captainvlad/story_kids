@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
-import 'package:story_kids/ui/client/components/utils_views/chewie_controller.dart';
-import 'package:story_kids/ui/client/components/utils_views/rounded_button.dart';
+import 'package:story_kids/ui/client/components/util_views/chewie_controller.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
 import 'package:story_kids/ui/resources/colors.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,6 +17,8 @@ class VideoBodyDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double standardVideoRatio = 16 / 9;
+
     UiManager uiManager = UiManager(context);
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
@@ -40,16 +42,18 @@ class VideoBodyDesktop extends StatelessWidget {
               fillColor: secondaryColor,
               strokeColor: secondaryColor,
               onPressed: () {
-                NavigationManager.popScreen();
+                NavigationManager.instance.popScreen();
               },
             ),
           ],
         ),
         SizedBox(
           width: uiManager.blockSizeHorizontal * 80,
-          height: uiManager.blockSizeVertical * 80,
+          height: uiManager.blockSizeHorizontal * 80 / standardVideoRatio,
           child: CustomChewie(
             controller: _videoController,
+            aspectRatio: standardVideoRatio,
+            autoInitialize: false,
           ),
         ),
         SizedBox(

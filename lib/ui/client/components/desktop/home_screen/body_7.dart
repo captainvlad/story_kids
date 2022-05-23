@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/managers/client/local_content_provider.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
+import 'package:story_kids/ui/client/components/desktop/home_screen/benefit_desktop.dart';
 import 'package:story_kids/ui/resources/colors.dart';
 
 class Body7 extends StatelessWidget {
@@ -35,58 +36,20 @@ class Body7 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: uiManager.blockSizeHorizontal * 25,
-                child: Column(
-                  children: [
-                    Image.network(
-                      LocalResourcesManager.homeScreen6!,
-                      height: uiManager.blockSizeVertical * 30,
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 2,
-                    ),
-                    Text(
-                      currentLocale.acquisition,
-                      style: uiManager.desktop700Style3,
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 2,
-                    ),
-                    Text(
-                      currentLocale.children,
-                      style: uiManager.desktop300Style2,
-                    ),
-                  ],
-                ),
+              BenefitDesktop(
+                uiManager: uiManager,
+                title: currentLocale.acquisition,
+                subtitle: currentLocale.children,
+                imageUrl: LocalContentProvider.instance.homeScreen6!,
               ),
               SizedBox(
                 width: uiManager.blockSizeHorizontal * 4,
               ),
-              SizedBox(
-                width: uiManager.blockSizeHorizontal * 25,
-                child: Column(
-                  children: [
-                    Image.network(
-                      LocalResourcesManager.homeScreen7!,
-                      height: uiManager.blockSizeVertical * 30,
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 2,
-                    ),
-                    Text(
-                      currentLocale.acquisition,
-                      style: uiManager.desktop700Style3,
-                    ),
-                    SizedBox(
-                      height: uiManager.blockSizeVertical * 2,
-                    ),
-                    Text(
-                      currentLocale.children,
-                      style: uiManager.desktop300Style2,
-                    ),
-                  ],
-                ),
+              BenefitDesktop(
+                uiManager: uiManager,
+                title: currentLocale.acquisition,
+                subtitle: currentLocale.children,
+                imageUrl: LocalContentProvider.instance.homeScreen7!,
               ),
             ],
           ),

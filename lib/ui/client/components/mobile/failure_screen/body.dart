@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
-import 'package:story_kids/ui/client/components/utils_views/rounded_button.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
 import 'package:story_kids/ui/resources/colors.dart';
 
 class FailureBodyMobile extends StatelessWidget {
-  const FailureBodyMobile({Key? key}) : super(key: key);
+  final void Function() onButtonPressed;
+  final String errorDescription;
+
+  const FailureBodyMobile({
+    required this.onButtonPressed,
+    required this.errorDescription,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Map? arguments = ModalRoute.of(context)!.settings.arguments as Map?;
-    final String failureDescription = arguments?["description"] ??
-        "Failure description"; // AAADIP create a standard string for this
-
-    UiManager uiManager = UiManager(context);
+    UiManager uiManager = UiManager(context, mode: "avg");
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
     return Column(
@@ -52,7 +54,7 @@ class FailureBodyMobile extends StatelessWidget {
                   width: double.infinity,
                 ),
                 Text(
-                  failureDescription,
+                  errorDescription,
                   textAlign: TextAlign.center,
                   style: uiManager.mobile700Style10,
                 ),
@@ -80,9 +82,7 @@ class FailureBodyMobile extends StatelessWidget {
               uiManager: uiManager,
               fillColor: primaryColor,
               strokeColor: primaryColor,
-              onPressed: () {
-                NavigationManager.popScreen();
-              },
+              onPressed: onButtonPressed,
             ),
             SizedBox(
               width: uiManager.blockSizeHorizontal * 20,

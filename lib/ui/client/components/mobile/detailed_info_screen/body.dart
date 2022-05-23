@@ -3,8 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
 import 'package:story_kids/models/client/media_content.dart';
-import 'package:story_kids/ui/client/components/utils_views/divider.dart';
-import 'package:story_kids/ui/client/components/utils_views/rounded_button.dart';
+import 'package:story_kids/ui/client/components/util_views/divider.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
 import 'package:story_kids/ui/client/screens/universal/video_player_screen.dart';
 import 'package:story_kids/ui/resources/colors.dart';
 
@@ -18,7 +18,7 @@ class DetailedInfoBodyMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UiManager uiManager = UiManager(context);
+    UiManager uiManager = UiManager(context, mode: "avg");
     AppLocalizations currentLocale = AppLocalizations.of(context)!;
 
     return Column(
@@ -61,9 +61,9 @@ class DetailedInfoBodyMobile extends StatelessWidget {
                       fillColor: secondaryColor,
                       strokeColor: primaryColor,
                       onPressed: () {
-                        NavigationManager.pushNamed(
+                        NavigationManager.instance.pushNamed(
                           VideoPlayerScreen.path,
-                          {"contentPath": content.contentPath},
+                          {"content": content},
                         );
                       },
                     ),
@@ -132,19 +132,25 @@ class DetailedInfoBodyMobile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        content.author,
-                        style: uiManager.mobile300Style1,
+                      SizedBox(
+                        width: uiManager.blockSizeHorizontal * 20,
+                        child: Text(
+                          content.author,
+                          style: uiManager.mobile300Style1,
+                        ),
                       ),
                       SizedBox(
                         width: uiManager.blockSizeVertical * 2,
                       ),
-                      Text(
-                        content.date,
-                        style: uiManager.mobile300Style1,
+                      SizedBox(
+                        width: uiManager.blockSizeHorizontal * 20,
+                        child: Text(
+                          content.date,
+                          style: uiManager.mobile300Style1,
+                        ),
                       ),
                       SizedBox(
                         width: uiManager.blockSizeVertical * 2,
@@ -156,9 +162,12 @@ class DetailedInfoBodyMobile extends StatelessWidget {
                       SizedBox(
                         width: uiManager.blockSizeVertical * 2,
                       ),
-                      Text(
-                        content.illustration,
-                        style: uiManager.mobile300Style1,
+                      SizedBox(
+                        width: uiManager.blockSizeHorizontal * 20,
+                        child: Text(
+                          content.illustration,
+                          style: uiManager.mobile300Style1,
+                        ),
                       ),
                     ],
                   ),

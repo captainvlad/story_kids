@@ -1,20 +1,23 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:story_kids/managers/client/navigation_manager.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
-import 'package:story_kids/ui/client/components/utils_views/rounded_button.dart';
-import 'package:story_kids/ui/client/screens/universal/library_screen.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
 import 'package:story_kids/ui/resources/colors.dart';
 
 class SuccessBodyMobile extends StatelessWidget {
-  const SuccessBodyMobile({Key? key}) : super(key: key);
+  final String title;
+  final String buttonLabel;
+  final void Function() onButtonPressed;
+
+  const SuccessBodyMobile({
+    required this.title,
+    required this.buttonLabel,
+    required this.onButtonPressed,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    UiManager uiManager = UiManager(context);
-    AppLocalizations currentLocale = AppLocalizations.of(context)!;
+    UiManager uiManager = UiManager(context, mode: "avg");
 
     return Column(
       children: [
@@ -36,8 +39,7 @@ class SuccessBodyMobile extends StatelessWidget {
               bottom: uiManager.blockSizeVertical * 2,
             ),
             child: Text(
-              // currentLocale.already_logged, AAADIP create new string here AAADIP create new string here
-              "Success",
+              title,
               textAlign: TextAlign.center,
               style: uiManager.mobile700Style1,
             ),
@@ -52,16 +54,14 @@ class SuccessBodyMobile extends StatelessWidget {
           children: [
             RoundedButton(
               text: Text(
-                currentLocale.browse,
+                buttonLabel,
                 textAlign: TextAlign.center,
                 style: uiManager.mobile700Style2,
               ),
               uiManager: uiManager,
               fillColor: primaryColor,
               strokeColor: primaryColor,
-              onPressed: () {
-                NavigationManager.pushNamed(LibraryScreen.path, null);
-              },
+              onPressed: onButtonPressed,
             ),
             SizedBox(
               width: uiManager.blockSizeHorizontal * 20,

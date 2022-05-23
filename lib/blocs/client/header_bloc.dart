@@ -1,17 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:story_kids/managers/client/local_content_provider.dart';
+import 'package:story_kids/managers/client/navigation_manager.dart';
+import 'package:story_kids/managers/client/remote_content_provider.dart';
 import 'package:story_kids/managers/client/ui_manager.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:story_kids/managers/client/local_content_provider.dart';
+import 'package:story_kids/ui/client/components/util_views/rounded_button.dart';
+import 'package:story_kids/ui/client/screens/universal/login_screen.dart';
+import 'package:story_kids/ui/client/screens/universal/progress_screen.dart';
+import 'package:story_kids/ui/client/screens/universal/register_screen.dart';
+import 'package:story_kids/ui/resources/colors.dart';
 
 class HeaderEvent {}
 
 class ChangeLanguageEvent extends HeaderEvent {
-  late String chosenItem;
-
-  ChangeLanguageEvent({
-    required this.chosenItem,
-  });
+  final String chosenFlag;
+  ChangeLanguageEvent({required this.chosenFlag});
 }
 
 class HeaderState extends Equatable {
@@ -19,14 +24,13 @@ class HeaderState extends Equatable {
 
   String currentLanguage = 'Ukrainian';
   Locale currentLocale = const Locale('uk', '');
-  String flagIconPath = LocalResourcesManager.localizationFlags![3];
 
-  final Map<String, String> languageFlagMap = {
-    'Spanish': LocalResourcesManager.localizationFlags![0],
-    'Polish': LocalResourcesManager.localizationFlags![1],
-    'Russian': LocalResourcesManager.localizationFlags![2],
-    'Ukrainian': LocalResourcesManager.localizationFlags![3],
-    'English': LocalResourcesManager.localizationFlags![4],
+  Map<String, String> languageFlagMap = {
+    'Spanish': LocalContentProvider.instance.localizationFlags?[0] ?? "",
+    'Polish': LocalContentProvider.instance.localizationFlags?[1] ?? "",
+    'Russian': LocalContentProvider.instance.localizationFlags?[2] ?? "",
+    'Ukrainian': LocalContentProvider.instance.localizationFlags?[3] ?? "",
+    'English': LocalContentProvider.instance.localizationFlags?[4] ?? "",
   };
 
   final Map<String, String> languageCodeMap = {
@@ -45,75 +49,92 @@ class HeaderState extends Equatable {
   @override
   List<Object?> get props => [
         version,
-        flagIconPath,
         currentLocale,
       ];
 
-  void setItem(String item) {
+  void setLanguage(String item) {
     version++;
 
-    currentLocale = Locale(languageCodeMap[item]!, '');
-    flagIconPath = languageFlagMap[item]!;
+    currentLocale = Locale(languageCodeMap[item] ?? 'uk', '');
     currentLanguage = item;
+
+    RemoteContentProvider.instance.releaseResources();
+    RemoteContentProvider.instance.localeCode = languageCodeMap[item] ?? 'uk';
+    NavigationManager.instance.backToMainScreen();
   }
 
-  List<DropdownMenuItem<String>> generateItems(UiManager uiManager) {
-    version++;
-
-    return languageFlagMap.keys.map(
-      (String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: SizedBox(
-            width: uiManager.blockSizeHorizontal * 5,
-            height: uiManager.blockSizeVertical * 3,
-            child: Center(
-              child: Image.network(
-                languageFlagMap[value]!,
-              ),
-            ),
-          ),
-        );
-      },
-    ).toList();
+  void _initFlags() {
+    languageFlagMap = {
+      'Spanish': LocalContentProvider.instance.localizationFlags?[0] ?? "",
+      'Polish': LocalContentProvider.instance.localizationFlags?[1] ?? "",
+      'Russian': LocalContentProvider.instance.localizationFlags?[2] ?? "",
+      'Ukrainian': LocalContentProvider.instance.localizationFlags?[3] ?? "",
+      'English': LocalContentProvider.instance.localizationFlags?[4] ?? "",
+    };
   }
 
   List<PopupMenuEntry<String>> generateFlags(UiManager uiManager) {
     version++;
+    _initFlags();
 
-    return languageFlagMap.keys.map(
-      (String value) {
-        return PopupMenuItem<String>(
-          value: value,
-          child: SizedBox(
-            width: uiManager.blockSizeHorizontal * 5,
-            height: uiManager.blockSizeVertical * 5,
-            child: Image.network(
-              languageFlagMap[value]!,
+    return languageFlagMap.keys
+        .map(
+          (String language) => PopupMenuItem<String>(
+            value: language,
+            child: SizedBox(
+              width: uiManager.blockSizeHorizontal * 5,
+              height: uiManager.blockSizeVertical * 5,
+              child: Image.network(languageFlagMap[language] ?? ''),
             ),
           ),
-        );
-      },
-    ).toList();
+        )
+        .toList();
   }
 
-  Widget generateChosenItem(UiManager uiManager) {
-    return DropdownMenuItem<String>(
-      value: currentLanguage,
-      child: SizedBox(
-        width: uiManager.blockSizeHorizontal * 5,
-        height: uiManager.blockSizeVertical * 3,
-        child: Center(
-          child: Image.network(
-            languageFlagMap[currentLanguage]!,
+  List<PopupMenuEntry<String>> generateButtons(
+    UiManager uiManager,
+    AppLocalizations currentLocale,
+  ) {
+    version++;
+
+    return [
+      PopupMenuItem<String>(
+        value: "log_in",
+        child: RoundedButton(
+          text: Text(
+            currentLocale.log_in,
+            style: uiManager.mobile700Style6,
           ),
+          uiManager: uiManager,
+          fillColor: secondaryColor,
+          strokeColor: primaryColor,
+          onPressed: () {
+            NavigationManager.instance.pushNamed(LogInScreen.path, null);
+          },
         ),
       ),
-    );
+      PopupMenuItem<String>(
+        value: "free_days",
+        child: RoundedButton(
+          text: Text(
+            currentLocale.free_days,
+            style: uiManager.mobile700Style6,
+          ),
+          uiManager: uiManager,
+          fillColor: secondaryColor,
+          strokeColor: primaryColor,
+          onPressed: () {
+            NavigationManager.instance.pushNamed(RegisterScreen.path, null);
+          },
+        ),
+      ),
+    ];
   }
 
-  void updateBloc() {
-    version++;
+  Future<void> initResources() async {
+    NavigationManager.instance.pushNamed(ProgressScreen.path, null);
+    await LocalContentProvider.instance.initResources();
+    NavigationManager.instance.popScreen();
   }
 }
 
@@ -122,13 +143,15 @@ class HeaderBloc extends Bloc<HeaderEvent, HeaderState> {
 
   @override
   Stream<HeaderState> mapEventToState(HeaderEvent event) async* {
-    HeaderState st = HeaderState();
-    state.updateBloc();
+    HeaderState newState = HeaderState();
 
-    if (event is ChangeLanguageEvent) {
-      st.setItem(event.chosenItem);
+    switch (event.runtimeType) {
+      case ChangeLanguageEvent:
+        event as ChangeLanguageEvent;
+        newState.setLanguage(event.chosenFlag);
+        break;
     }
 
-    yield st;
+    yield newState;
   }
 }

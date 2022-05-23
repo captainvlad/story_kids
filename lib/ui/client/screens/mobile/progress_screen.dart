@@ -2,31 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:story_kids/managers/client/local_content_provider.dart';
 import 'package:story_kids/ui/client/components/mobile/progress_screen/body.dart';
-import 'package:story_kids/ui/client/components/utils_views/header_mobile.dart';
+import 'package:story_kids/ui/client/components/util_views/header_mobile.dart';
 
 class ProgressScreenMobile extends StatelessWidget {
-  const ProgressScreenMobile({Key? key}) : super(key: key);
+  final bool headerVisible;
+
+  const ProgressScreenMobile({
+    this.headerVisible = true,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Widget innerBody = const SizedBox.shrink();
+
+    BoxDecoration screenDecoration =
+        LocalContentProvider.instance.getScreenDecoration(
+      preferredBackGroundImage:
+          LocalContentProvider.instance.darkBackgroundImage,
+    );
+
+    if (headerVisible) {
+      innerBody = SingleChildScrollView(
+        child: StickyHeader(
+          header: const HeaderMobile(),
+          content: const ProgressScreenBodyMobile(),
+        ),
+      );
+    } else {
+      innerBody = const ProgressScreenBodyMobile();
+    }
+
     return Scaffold(
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: Image.network(
-              LocalResourcesManager.darkBackgroundImage!,
-            ).image,
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: StickyHeader(
-            header: const HeaderMobile(),
-            content: const ProgressScreenBodyMobile(),
-          ),
-        ),
+        decoration: screenDecoration,
+        child: innerBody,
       ),
     );
   }

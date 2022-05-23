@@ -2,28 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:story_kids/managers/client/local_content_provider.dart';
 import 'package:story_kids/ui/client/components/mobile/success_screen/body.dart';
-import 'package:story_kids/ui/client/components/utils_views/header_mobile.dart';
+import 'package:story_kids/ui/client/components/util_views/header_mobile.dart';
 
 class SuccessScreenMobile extends StatelessWidget {
-  const SuccessScreenMobile({Key? key}) : super(key: key);
+  final String title;
+  final String buttonLabel;
+  final void Function() onButtonPressed;
+
+  const SuccessScreenMobile({
+    required this.title,
+    required this.buttonLabel,
+    required this.onButtonPressed,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    BoxDecoration screenDecoration =
+        LocalContentProvider.instance.getScreenDecoration(
+      preferredBackGroundImage:
+          LocalContentProvider.instance.lightBackgroundImage,
+    );
+
     return Scaffold(
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: Image.network(
-            LocalResourcesManager.lightBackgroundImage!,
-          ).image,
-          fit: BoxFit.cover,
-        )),
+        decoration: screenDecoration,
         child: SingleChildScrollView(
           child: StickyHeader(
             header: const HeaderMobile(),
-            content: const SuccessBodyMobile(),
+            content: SuccessBodyMobile(
+              title: title,
+              buttonLabel: buttonLabel,
+              onButtonPressed: onButtonPressed,
+            ),
           ),
         ),
       ),

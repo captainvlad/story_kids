@@ -62,12 +62,24 @@ class UiManager {
     ),
   );
 
-  UiManager(BuildContext context) {
+  static final defaultAppTheme = ThemeData(
+    primaryColor: secondaryColor,
+    colorScheme: ThemeData().colorScheme.copyWith(
+          primary: primaryColor,
+        ),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: primaryColor,
+    ),
+  );
+
+  UiManager(BuildContext context, {String mode = "min"}) {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     blockSizeHorizontal = screenWidth / 100;
     blockSizeVertical = screenHeight / 100;
-    mobileSizeUnit = min(blockSizeVertical, blockSizeHorizontal);
+    mobileSizeUnit = mode == "min"
+        ? min(blockSizeVertical, blockSizeHorizontal)
+        : (blockSizeVertical + blockSizeHorizontal) / 2;
 
     initDesktopStyles();
     initMobileStyles();

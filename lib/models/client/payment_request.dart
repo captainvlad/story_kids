@@ -1,84 +1,58 @@
-import 'package:story_kids/managers/client/backend_utils.dart';
-import 'package:story_kids/models/client/enums.dart';
+import 'package:story_kids/managers/client/auth_manager.dart';
+import 'package:story_kids/managers/client/remote_content_provider.dart';
+import 'package:story_kids/models/client/abstract_request.dart';
 import 'package:story_kids/models/client/plan.dart';
+import 'package:story_kids/models/client/utils.dart';
+import 'package:story_kids/models/client/user_model.dart';
 
-class PaymentRequest {
-  // Create new new predcessor class (ServerRequest) to be extended by
-  // CheckRequest, PaymentRequest, UpdateRequest with needed fiedlds and
-  // method toJsonString
-  // Create Application class and use fucking SOLID principles AAADIP
-  final PaymentTools paymentService;
-  final String userId;
-  late String currency;
-  late String planName;
-  late double priceValue;
-  late String transactionDate;
+class PaymentRequest extends AbstractRequest {
+  late Plan userPlan;
+  late String cardNumber;
+  late String cardExpYear;
+  late UserModel userModel;
+  late String cardExpMonth;
+  late String cardCvvNumber;
 
-  final String cardNumber;
-  final String yearExpired;
-  final String monthExpired;
-  final String cvv;
+  Future<void> initialize(
+    String cardNumberValue,
+    String expiryDateValue,
+    String cvvValue,
+  ) async {
+    cardNumber = cardNumberValue;
+    cardExpMonth = expiryDateValue.substring(0, 2);
+    cardExpYear = expiryDateValue.substring(3);
+    cardCvvNumber = cvvValue;
 
-  final String stripeSecretKey;
-  final String liqPayPublicKey;
-  final String liqPayPrivateKey;
-  final String subscribeDateStart;
+    userModel = AuthManager.instance.user!;
+    userPlan = (await RemoteContentProvider.instance.getPlanByName(
+      userModel.chosenPlanName,
+    ))!;
 
-  PaymentRequest({
-    required Plan plan,
-    required this.userId,
-    required this.cardNumber,
-    required this.yearExpired,
-    required this.monthExpired,
-    required this.cvv,
-    required this.paymentService,
-    required this.stripeSecretKey,
-    required this.liqPayPublicKey,
-    required this.liqPayPrivateKey,
-    required this.subscribeDateStart,
-  }) {
-    planName = plan.name;
-    currency = plan.currency;
-
-    priceValue = plan.priceValue;
-    transactionDate = BackendUtils.getCurrentDate();
+    type = "payment";
+    credentials = await getCredentials();
   }
 
-  String toJsonString(String type) {
-    return '''{
-      'type': '$type',
-      'paymentService': '$paymentService',
-      'userId': '$userId',
-      'currency': '$currency',
-      'planName': '$planName',
-      'priceValue': $priceValue,
-      'transactionDate': '$transactionDate',
-      'cardNumber': '$cardNumber',
-      'yearExpired': '$yearExpired',
-      'monthExpired': '$monthExpired',
-      'cvv': '$cvv',
-      'stripeSecretKey': '$stripeSecretKey',
-      'liqPayPublicKey': '$liqPayPublicKey',
-      'liqPayPrivateKey': '$liqPayPrivateKey',
-      'subscribeDateStart': '$subscribeDateStart'
-    }''';
-  }
+  @override
+  Map<String, dynamic> toMap() {
+    String transactionDate = Utils.getCurrentDate();
+    String subscriptionStartDate = Utils.addDaysToCurrentDate(30);
 
-  // String toJsonString(String type) {
-  //   return '''{
-  //     'type': '$type',
-  //     'paymentService': '$paymentService',
-  //     'userId': '$userId',
-  //     'planName': '$planName',
-  //     'transactionDate': '$transactionDate',
-  //     'cardNumber': '$cardNumber',
-  //     'yearExpired': '$yearExpired',
-  //     'monthExpired': '$monthExpired',
-  //     'cvv': '$cvv',
-  //     'stripeSecretKey': '$stripeSecretKey',
-  //     'liqPayPublicKey': '$liqPayPublicKey',
-  //     'liqPayPrivateKey': '$liqPayPrivateKey',
-  //     'subscribeDateStart': '$subscribeDateStart'
-  //   }''';
-  // }
+    return {
+      'type': type,
+      'cvv': cardCvvNumber,
+      'cardNumber': cardNumber,
+      'userId': userModel.id,
+      'yearExpired': cardExpYear,
+      'monthExpired': cardExpMonth,
+      'currency': userPlan.currency,
+      'priceValue': userPlan.priceValue,
+      'transactionDate': transactionDate,
+      'planName': userModel.chosenPlanName,
+      'subscribeDateStart': subscriptionStartDate,
+      'paymentService': userModel.paymentService,
+      'stripeSecretKey': '${credentials!["secret_key"]}',
+      'liqpayPublicKey': '${credentials!["public_key"]}',
+      'liqpayPrivateKey': '${credentials!["private_key"]}'
+    };
+  }
 }

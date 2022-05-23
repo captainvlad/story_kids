@@ -67,6 +67,7 @@
     "username": "NOMBRE DE USUARIO",
     "password": "CLAVE",
     "username_lower": "Nombre de usuario",
+    "email_lower": "Correo electrónico",
     "name": "Nombre",
     "surname": "Apellido",
     "mail": "Correo electrónico",
@@ -92,5 +93,18 @@
     "user_already_exists": "El usuario con dicho correo electrónico ya existe",
     "log_in_successful": "Inicio de sesión exitoso",
     "success": "Éxito",
-    "log_in_progress": "Proceso de inicio de sesión en curso"
+    "log_in_progress": "Proceso de inicio de sesión en curso",
+    "error_unknown": "El error es desconocido",
+    "restoring_progress": "Restauración de contraseña en curso",
+    "restoring_success": "Restablecer correo fue enviado a su correo electrónico",
+    "card_number_invalid": "Número de tarjeta inválida",
+    "cvv_number_invalid": "Número de CVV inválida",
+    "date_number_invalid": "Fecha de caducidad inválida",
+    "no_plan": "Ningún plan elegido",
+    "username_invalid": "Nombre de usuario inválido",
+    "name_invalid": "Nombre inválida",
+    "surname_invalid": "Apellido inválida",
+    "email_invalid": "Correo electrónico inválido",
+    "password_invalid": "Contraseña no válida, debe tener más de 6 símbolos de longitud",
+    "no_user": "El usuario con tales credenciales no existe"
 }
