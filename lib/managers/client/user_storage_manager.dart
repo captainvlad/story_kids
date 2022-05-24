@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:story_kids/managers/client/encryption_manager.dart';
-import 'package:story_kids/models/client/enums.dart';
 import 'package:story_kids/models/client/user_model.dart';
 import 'package:story_kids/models/client/utils.dart';
 

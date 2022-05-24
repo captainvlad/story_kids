@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Future<void> asyncWait({
@@ -7,4 +8,20 @@ Future<void> asyncWait({
   await tester.runAsync(() async {
     await Future.delayed(Duration(seconds: secondsTime));
   });
+}
+
+Future<void> initFirebaseApp() async {
+  // MARK: SECURE INFORMATION: firebaseApp
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "*****************",
+      authDomain: "*************",
+      databaseURL: "************",
+      projectId: "**************",
+      storageBucket: "**********",
+      messagingSenderId: "******",
+      appId: "******************",
+      measurementId: "**********",
+    ),
+  );
 }
