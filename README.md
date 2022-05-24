@@ -1,4 +1,4 @@
-# story_kids
+# Story Kids
 
 This repository is intended to hold codebase for the "Story Kids" application, 
 
